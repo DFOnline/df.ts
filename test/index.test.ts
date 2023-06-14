@@ -1,5 +1,5 @@
 // not at all overkill
-import {Bracket, Else, Template} from "../src";
+import {Bracket, DataBlock, Else, Template} from "../src";
 
 describe("Templates", () => {
     it("can be constructed", () => {
@@ -53,12 +53,37 @@ describe("Codeblock", () => {
         })
     })
 
-    describe("Block", () => {
+    describe("Blocks", () => {
         describe("Else", () => {
             test("Can be constructed", () => {
                 const _else = new Else();
                 expect(_else.id).toBe('block')
                 expect(_else.block).toBe('else')
+            })
+        })
+        describe("Data Block", () => {
+            test("Can be constructed", () => {
+                const dataBlock = new DataBlock('func','data')
+                expect(dataBlock.id).toBe('block')
+                expect(dataBlock.data).toBe('data')
+            })
+            describe("Parsing", () => {
+                test("Data", () => {
+                    const dataBlock = DataBlock.parse({id:'block',block:'func',data:'test'})
+                    expect(dataBlock).toBeInstanceOf(DataBlock)
+                    expect(dataBlock.id).toBe('block')
+                    expect(dataBlock.block).toBe('func')
+                    expect(dataBlock.data).toBe('test')
+                })
+                test("Missing data", () => {
+                    expect(() => DataBlock.parse({id:'block',block:'func'})).toThrowError()
+                })
+                test("Missing block", () => {
+                    expect(() => DataBlock.parse({id:'block',data:'test'})).toThrowError()
+                })
+                test("Missing id", () => {
+                    expect(() => DataBlock.parse({block:'func',data:'test'})).toThrowError()
+                })
             })
         })
     })

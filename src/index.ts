@@ -11,15 +11,18 @@ export class Bracket extends CodeBlock {
     direct : "open" | "close" = "open";
     type : "norm" | "repeat" = "norm";
 
-    static parse(data : any) {
-        if (data.id != 'bracket') 
-            throw TypeError("Not a bracket");
-        
-        if (data.direct != 'open' && data.direct != 'close') 
-            throw TypeError("Direct is not open or close");
-        
-        if (data.type != "norm" && data.type != "repeat") 
-            throw TypeError("Type is not norm or repeat");
+    static check(data : any) : string | undefined {
+        if (data.id != 'bracket') return 'id';
+        if (data.direct != 'open' && data.direct != 'close') return 'direct';
+        if (data.type != "norm" && data.type != "repeat") return 'type';
+        return;
+    }
+
+    static parse(data : any) : Bracket {
+        const check = this.check(data);
+        if(check != null) {
+            throw new TypeError(`${check} has bad value`)
+        }
         
         const bracket = new Bracket();
         bracket.direct = data.direct;
@@ -31,10 +34,25 @@ export class Bracket extends CodeBlock {
 export abstract class Block extends CodeBlock {
     readonly id : "block" = "block";
     readonly block : string;
+
+    constructor(block : string) {
+        super();
+        this.block = block;
+    }
+
+    static check(data : any) : string | undefined {
+        if(data.id != 'block') return 'id';
+        if(data.block == null) return 'block';
+        return;
+    }
 }
 
 export class Else extends Block {
     readonly block : "else" = "else";
+
+    constructor() {
+        super('else')
+    }
 }
 
 /**
@@ -65,6 +83,25 @@ interface ForthLineBlock {
 
 export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     data: string;
+
+    constructor(block : string, data : string) {
+        super(block)
+        this.data = data;
+    }
+
+    static check(data : any) : string | undefined {
+        const check = super.check(data);
+        if(check != null) return check;
+        if(data.data == null) return 'data';
+        return;
+    }
+    
+    static parse(data: any) {
+        const check = this.check(data);
+        if(check != null) throw new TypeError(`${check} has bad value`);
+        return new DataBlock(data.block, data.data);
+        
+    }
 
     get secondLine(): string {
         return this.data

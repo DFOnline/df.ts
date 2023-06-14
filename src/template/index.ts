@@ -98,7 +98,13 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
 
 export class ActionBlock extends ArgumentBlock implements SecondLineBlock, ForthLineBlock {
     action: string;
-    inverted: string;
+    inverted: string = '';
+
+    constructor(block : string, action : string, inverted : string = '') {
+        super(block);
+        this.action = action;
+        this.inverted = inverted;
+    }
 
     get secondLine(): string {
         return this.action;

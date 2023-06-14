@@ -1,5 +1,5 @@
 // not at all overkill
-import {Bracket, DataBlock, Else, Template} from "../src/template/index";
+import {ActionBlock, Bracket, DataBlock, Else, Template} from "../src/template/index";
 
 describe("Templates", () => {
     it("can be constructed", () => {
@@ -97,6 +97,64 @@ describe("Codeblock", () => {
                     dataBlock.secondLine = 'newData2';
                     expect(dataBlock.data).toBe('newData2');
                     expect(dataBlock.secondLine).toBe('newData2');
+                })
+            })
+        })
+        describe("Action Block", () => {
+            describe("Constructor", () => {
+                test("With inverted", () => {
+                    const action = new ActionBlock("if","alive","NOT")
+                    expect(action.block).toBe('if')
+                    expect(action.action).toBe('alive')
+                    expect(action.inverted).toBe('NOT')
+                })
+                test("Without inverted", () => {
+                    const action = new ActionBlock("if","alive","")
+                    expect(action.block).toBe('if')
+                    expect(action.action).toBe('alive')
+                    expect(action.inverted).toBe('')
+                })
+            })
+            describe("Second line", () => {
+                test("Getting", () => {
+                    const action = new ActionBlock("block","action","NOT")
+                    expect(action.secondLine).toBe("action")
+                })
+                test("Setting", () => {
+                    const action = new ActionBlock("block","action2","NOT")
+                    action.secondLine = 'action3'
+                    expect(action.action).toBe("action3")
+                    expect(action.secondLine).toBe("action3")
+                })
+            })
+            describe("Forth line", () => {
+                test("Getting", () => {
+                    const action = new ActionBlock("block","action","NOT")
+                    expect(action.forthLine).toBe('NOT')
+                })
+                test("Setting", () => {
+                    const action = new ActionBlock("block","action","NOT1")
+                    action.forthLine = "NOT2"
+                    expect(action.inverted).toBe('NOT2')
+                    expect(action.forthLine).toBe('NOT2')
+                })
+            })
+            describe("NOT", () => {
+                test("Getting", () => {
+                    const invertedAction = new ActionBlock("block","action","NOT")
+                    expect(invertedAction.not).toBe(true)
+                    const regularAction = new ActionBlock("block","action")
+                    expect(regularAction.not).toBe(false)
+                })
+                test("Setting", () => {
+                    const invertedAction = new ActionBlock("block","action","NOT")
+                    invertedAction.not = false;
+                    expect(invertedAction.inverted).toBe('')
+                    expect(invertedAction.not).toBe(false)
+                    const regularAction = new ActionBlock("block","action")
+                    regularAction.not = true;
+                    expect(regularAction.inverted).toBe('NOT')
+                    expect(regularAction.not).toBe(true)
                 })
             })
         })

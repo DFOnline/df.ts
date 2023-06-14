@@ -1,3 +1,6 @@
+import { SecondLineBlock, ThirdLineBlock, ForthLineBlock } from "./lines";
+import { Arguments } from "./argument";
+
 export class Template {
     blocks : CodeBlock[];
 }
@@ -62,24 +65,6 @@ export abstract class ArgumentBlock extends Block {
     args: Arguments;
 }
 
-class Arguments {
-    items: Argument[];
-}
-// TODO: Do arguments
-abstract class Argument {}
-
-interface SecondLineBlock {
-    get secondLine(): string;
-    set secondLine(string: string);
-}
-interface ThirdLineBlock {
-    get thirdLine(): string;
-    set thirdLine(string: string);
-}
-interface ForthLineBlock {
-    get forthLine(): string;
-    set forthLine(string: string);
-}
 
 export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     data: string;

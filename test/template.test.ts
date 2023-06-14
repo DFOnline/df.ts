@@ -1,5 +1,5 @@
 // not at all overkill
-import {Bracket, DataBlock, Else, Template} from "../src";
+import {Bracket, DataBlock, Else, Template} from "../src/template/index";
 
 describe("Templates", () => {
     it("can be constructed", () => {
@@ -83,6 +83,20 @@ describe("Codeblock", () => {
                 })
                 test("Missing id", () => {
                     expect(() => DataBlock.parse({block:'func',data:'test'})).toThrowError()
+                })
+            })
+            describe("Second line", () => {
+                test("Gets data", () => {
+                    const dataBlock = new DataBlock('func','testData');
+                    expect(dataBlock.secondLine).toBe('testData');
+                    dataBlock.data = 'newData';
+                    expect(dataBlock.secondLine).toBe('newData');
+                })
+                test("Sets data", () => {
+                    const dataBlock = new DataBlock('func','testData');
+                    dataBlock.secondLine = 'newData2';
+                    expect(dataBlock.data).toBe('newData2');
+                    expect(dataBlock.secondLine).toBe('newData2');
                 })
             })
         })

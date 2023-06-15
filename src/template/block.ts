@@ -1,10 +1,6 @@
 import { SecondLineBlock, ThirdLineBlock, ForthLineBlock } from "./lines";
 import { Arguments } from "./argument";
 
-export class Template {
-    blocks : CodeBlock[];
-}
-
 export abstract class CodeBlock {
     readonly id : "block" | "bracket";
 }
@@ -52,6 +48,13 @@ export abstract class Block extends CodeBlock {
 
 export class Else extends Block {
     readonly block : "else" = "else";
+
+    // TODO: write test for this
+    static parse(data : any) : Else {
+        const check = this.check(data);
+        if(check != null) throw new TypeError(`${check} has bad value`);
+        return new Else()
+    }
 
     constructor() {
         super('else')

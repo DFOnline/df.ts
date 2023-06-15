@@ -45,7 +45,7 @@ export abstract class Block extends CodeBlock {
 
     static check(data : any) : string | undefined {
         if(data.id != 'block') return 'id';
-        if(data.block == null) return 'block';
+        if(typeof data.block != 'string') return 'block';
         return;
     }
 }
@@ -59,7 +59,8 @@ export class Else extends Block {
 }
 
 /**
- * A block with arguments, so it probably has a chest and can contain arguments
+ * A block with arguments
+ * Most have chests.
  */
 export abstract class ArgumentBlock extends Block {
     args: Arguments;
@@ -77,7 +78,7 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     static check(data : any) : string | undefined {
         const check = super.check(data);
         if(check != null) return check;
-        if(data.data == null) return 'data';
+        if(typeof data.data != 'string') return 'data';
         return;
     }
     
@@ -85,7 +86,6 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
         return new DataBlock(data.block, data.data);
-        
     }
 
     get secondLine(): string {
@@ -104,6 +104,13 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
         super(block);
         this.action = action;
         this.inverted = inverted;
+    }
+
+    static check(data : any) : string | undefined {
+        const check = super.check(data);
+        if(check != null) return check;
+        if(typeof data.inverted != 'string') return 'inverted';
+        return;
     }
 
     get secondLine(): string {
@@ -136,6 +143,18 @@ export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
         this.target = target ?? "";
     }
 
+    static check(data: any): string | undefined {
+        const check = super.check(data);
+        if(check != null) return check;
+        if(typeof data.target != 'string') return 'check';
+    }
+
+    static parse(data: any) : SelectionBlock {
+        const check = this.check(data);
+        if(check != null) throw new TypeError(`${check} has bad value`);
+        return new SelectionBlock(data.block, data.action, data.target, data.inverted)
+    }
+
     get thirdLine(): string {
         return this.target;
     }
@@ -150,6 +169,18 @@ export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
     constructor(block : string, action : string, subAction?: string, inverted?: string) {
         super(block,action,inverted);
         this.subAction = subAction ?? "";
+    }
+
+    static check(data: any): string | undefined {
+        const check = super.check(data);
+        if(check != null) return check;
+        if(typeof data.subAction != 'string') return 'check';
+    }
+
+    static parse(data: any) : SubActionBlock {
+        const check = this.check(data);
+        if(check != null) throw new TypeError(`${check} has bad value`);
+        return new SubActionBlock(data.block, data.action, data.subAction, data.inverted)
     }
 
     get thirdLine(): string {

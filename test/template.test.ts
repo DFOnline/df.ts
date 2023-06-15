@@ -182,6 +182,23 @@ describe("Codeblock", () => {
                     expect(selection.inverted).toBe("inverted")
                 })
             })
+            describe("Parsing", () => {
+                test("Valid", () => {
+                    const selection = SelectionBlock.parse({id:"block",block:"block",action:"action",target:"target",inverted:"NOT"})
+                    expect(selection).toBeInstanceOf(SelectionBlock)
+                    expect(selection.id).toBe('block')
+                    expect(selection.action).toBe('action')
+                    expect(selection.target).toBe('target')
+                    expect(selection.inverted).toBe('NOT')
+                })
+                test("Invalid", () => {
+                    expect(() => SelectionBlock.parse({block:"block",action:"action",target:"target",inverted:"NOT"})).toThrowError()
+                    expect(() => SelectionBlock.parse({id:"block",action:"action",target:"target",inverted:"NOT"})).toThrowError()
+                    expect(() => SelectionBlock.parse({id:"block",target:"target",inverted:"NOT"})).toThrowError()
+                    expect(() => SelectionBlock.parse({id:"block",block:"block",action:"action",inverted:"NOT"})).toThrowError()
+                    expect(() => SelectionBlock.parse({id:"block",block:"block",action:"action",target:"target"})).toThrowError()
+                })
+            })
             describe("Third line", () => {
                 test("Getting", () => {
                     const selection = new SelectionBlock("block","action","target")
@@ -219,6 +236,7 @@ describe("Codeblock", () => {
                     expect(selection.inverted).toBe("inverted")
                 })
             })
+
             describe("Third line", () => {
                 test("Getting", () => {
                     const selection = new SubActionBlock("block","action","subAction")

@@ -1,5 +1,5 @@
 // not at all overkill
-import {ActionBlock, Bracket, DataBlock, Else, Template} from "../src/template/index";
+import {ActionBlock, Bracket, DataBlock, Else, SelectionBlock, SubActionBlock, Template} from "../src/template/index"
 
 describe("Templates", () => {
     it("can be constructed", () => {
@@ -56,7 +56,7 @@ describe("Codeblock", () => {
     describe("Blocks", () => {
         describe("Else", () => {
             test("Can be constructed", () => {
-                const _else = new Else();
+                const _else = new Else()
                 expect(_else.id).toBe('block')
                 expect(_else.block).toBe('else')
             })
@@ -87,16 +87,16 @@ describe("Codeblock", () => {
             })
             describe("Second line", () => {
                 test("Gets data", () => {
-                    const dataBlock = new DataBlock('func','testData');
-                    expect(dataBlock.secondLine).toBe('testData');
-                    dataBlock.data = 'newData';
-                    expect(dataBlock.secondLine).toBe('newData');
+                    const dataBlock = new DataBlock('func','testData')
+                    expect(dataBlock.secondLine).toBe('testData')
+                    dataBlock.data = 'newData'
+                    expect(dataBlock.secondLine).toBe('newData')
                 })
                 test("Sets data", () => {
-                    const dataBlock = new DataBlock('func','testData');
-                    dataBlock.secondLine = 'newData2';
-                    expect(dataBlock.data).toBe('newData2');
-                    expect(dataBlock.secondLine).toBe('newData2');
+                    const dataBlock = new DataBlock('func','testData')
+                    dataBlock.secondLine = 'newData2'
+                    expect(dataBlock.data).toBe('newData2')
+                    expect(dataBlock.secondLine).toBe('newData2')
                 })
             })
         })
@@ -148,13 +148,87 @@ describe("Codeblock", () => {
                 })
                 test("Setting", () => {
                     const invertedAction = new ActionBlock("block","action","NOT")
-                    invertedAction.not = false;
+                    invertedAction.not = false
                     expect(invertedAction.inverted).toBe('')
                     expect(invertedAction.not).toBe(false)
                     const regularAction = new ActionBlock("block","action")
-                    regularAction.not = true;
+                    regularAction.not = true
                     expect(regularAction.inverted).toBe('NOT')
                     expect(regularAction.not).toBe(true)
+                })
+            })
+        })
+        describe("Selection Block", () => {
+            describe("Constructor", () => {
+                test("Only block and action", () => {
+                    const selection = new SelectionBlock("block","action")
+                    expect(selection.block).toBe("block")
+                    expect(selection.action).toBe("action")
+                    expect(selection.target).toBe("")
+                    expect(selection.inverted).toBe("")
+                })
+                test("With target", () => {
+                    const selection = new SelectionBlock("block","action","target")
+                    expect(selection.block).toBe("block")
+                    expect(selection.action).toBe("action")
+                    expect(selection.target).toBe("target")
+                    expect(selection.inverted).toBe("")
+                })
+                test("With target and inverted", () => {
+                    const selection = new SelectionBlock("block","action","target","inverted")
+                    expect(selection.block).toBe("block")
+                    expect(selection.action).toBe("action")
+                    expect(selection.target).toBe("target")
+                    expect(selection.inverted).toBe("inverted")
+                })
+            })
+            describe("Third line", () => {
+                test("Getting", () => {
+                    const selection = new SelectionBlock("block","action","target")
+                    expect(selection.thirdLine).toBe("target")
+                })
+                test("Setting", () => {
+                    const selection = new SelectionBlock("block","action","target1")
+                    selection.thirdLine = "target2"
+                    expect(selection.target).toBe("target2")
+                    expect(selection.thirdLine).toBe("target2")
+                })
+            })
+        })
+        describe("SubAction Block", () => {
+            describe("Constructor", () => {
+                test("Only block and action", () => {
+                    const selection = new SubActionBlock("block","action")
+                    expect(selection.block).toBe("block")
+                    expect(selection.action).toBe("action")
+                    expect(selection.subAction).toBe("")
+                    expect(selection.inverted).toBe("")
+                })
+                test("With target", () => {
+                    const selection = new SubActionBlock("block","action","subAction")
+                    expect(selection.block).toBe("block")
+                    expect(selection.action).toBe("action")
+                    expect(selection.subAction).toBe("subAction")
+                    expect(selection.inverted).toBe("")
+                })
+                test("With target and inverted", () => {
+                    const selection = new SubActionBlock("block","action","subAction","inverted")
+                    expect(selection.block).toBe("block")
+                    expect(selection.action).toBe("action")
+                    expect(selection.subAction).toBe("subAction")
+                    expect(selection.inverted).toBe("inverted")
+                })
+            })
+            describe("Third line", () => {
+                test("Getting", () => {
+                    const selection = new SubActionBlock("block","action","subAction")
+                    expect(selection.thirdLine).toBe("subAction")
+                })
+                test("Setting", () => {
+                    const selection = new SubActionBlock("block","action","subAction1")
+                    selection.thirdLine = "subAction2"
+                    expect(selection.subAction).toBe("subAction2")
+                    expect(selection.thirdLine).toBe("subAction2")
                 })
             })
         })

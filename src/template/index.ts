@@ -129,7 +129,12 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
 }
 
 export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
-    target: string;
+    target: string = "";
+
+    constructor(block : string, action : string, target?: string, inverted?: string) {
+        super(block,action,inverted);
+        this.target = target ?? "";
+    }
 
     get thirdLine(): string {
         return this.target;
@@ -141,6 +146,11 @@ export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
 
 export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
     subAction: string;
+
+    constructor(block : string, action : string, subAction?: string, inverted?: string) {
+        super(block,action,inverted);
+        this.subAction = subAction ?? "";
+    }
 
     get thirdLine(): string {
         return this.subAction;

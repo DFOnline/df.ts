@@ -10,7 +10,7 @@ export default class Template {
     static parse(data : any) : Template {
         const blockTypes = [SubActionBlock, SelectionBlock, DataBlock, Bracket, Else];
         if(!(data.blocks instanceof Array)) throw TypeError("blocks tag isn't array.");
-        const blocks = data.blocks.map((block,i) => {
+        const blocks = data.blocks.map((block : any, i : number) => {
             for (const type of blockTypes) {
                 if(type.check(block) == null) {
                     return type.parse(block);

@@ -3,12 +3,22 @@ import { Arguments } from "./argument";
 
 export abstract class CodeBlock {
     readonly id : "block" | "bracket";
+
+    constructor(id : "block" | "bracket") {
+        this.id = id;
+    }
 }
 
+type BracketDirect = "open" | "close";
+type BracketType = "norm" | "repeat";
 export class Bracket extends CodeBlock {
     readonly id : "bracket" = "bracket";
-    direct : "open" | "close" = "open";
-    type : "norm" | "repeat" = "norm";
+    direct : BracketDirect = "open";
+    type : BracketType = "norm";
+
+    constructor(direct : BracketDirect = "open", type : BracketType = "norm") {
+        super("bracket");
+    }
 
     static check(data : any) : string | undefined {
         if (data.id != 'bracket') return 'id';
@@ -35,7 +45,7 @@ export abstract class Block extends CodeBlock {
     readonly block : string;
 
     constructor(block : string) {
-        super();
+        super("block");
         this.block = block;
     }
 
@@ -66,7 +76,7 @@ export class Else extends Block {
  * Most have chests.
  */
 export abstract class ArgumentBlock extends Block {
-    args: Arguments;
+    args?: Arguments;
 }
 
 

@@ -32,6 +32,6 @@
     "typescript": "^5.1.3"
   },
   "files": [
-    "lib/**/*"
+    "./lib", "./src"
   ]
 }

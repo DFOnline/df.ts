@@ -39,3 +39,29 @@ export class Named extends Item {
         super(id,data);
     }
 }
+
+export type VariableScope = 'unsaved' | 'saved' | 'local'
+export class Variable extends Named {
+    constructor(data: {name: string, scope: VariableScope}) {
+        if(data.scope != 'local' && data.scope != 'saved' && data.scope != 'unsaved') throw new TypeError(`Scope must be any of unsaved, saved and local. Not ${data.scope}`)
+        super('var',data)
+    }
+}
+
+export class Location extends Item {
+    constructor(data: {
+        /**
+         * @deprecated Not used by DiamondFire
+         */
+        isBlock?: boolean,
+        loc: {x: number,y: number,z: number,pitch?: number,yaw?: number}}) {
+        data.isBlock = data.isBlock ?? false;
+        if(typeof data.isBlock != 'boolean') throw TypeError(`data.isBlock should be a boolean, not a ${typeof data.isBlock}`)
+        if(typeof data.loc.x != 'number') throw TypeError(`data.x should be a number, not a ${typeof data.loc.x}`)
+        if(typeof data.loc.y != 'number') throw TypeError(`data.y should be a number, not a ${typeof data.loc.y}`)
+        if(typeof data.loc.z != 'number') throw TypeError(`data.z should be a number, not a ${typeof data.loc.z}`)
+        if(typeof data.loc.pitch != 'number' && typeof data.loc.pitch != 'undefined') throw TypeError(`data.pitch should be a number or undefiened, not a ${typeof data.loc.pitch}`)
+        if(typeof data.loc.yaw != 'number' && typeof data.loc.yaw != 'undefined') throw TypeError(`data.yaw should be a number or undefiened, not a ${typeof data.loc.yaw}`)
+        super('loc',data)
+    }
+}

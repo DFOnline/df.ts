@@ -1,4 +1,4 @@
-import Argument, { Item, Location, Named, Variable } from '../src/template/argument'
+import Argument, { Item, Location, Named, Variable, Vector } from '../src/template/argument'
 
 class DummyItem extends Item {
     constructor() {
@@ -82,6 +82,17 @@ describe("Item",() => {
             new Location({loc:{x:10,y:20,z:30,pitch:10,yaw:90}})
             new Location({isBlock:false, loc:{x:10,y:20,z:30,pitch:10,yaw:90}})
             new Location({isBlock:true, loc:{x:10,y:20,z:30}})
+        })
+    })
+
+    describe("Vector", () => {
+        test("Valid", () => {
+            new Vector({x:1,y:-5,z:0.1})
+        })
+        test("Invalid",() => {
+            expect(() => new Vector({y:1,z:1} as any)).toThrowError()
+            expect(() => new Vector({x:1,z:1} as any)).toThrowError()
+            expect(() => new Vector({x:1,y:1} as any)).toThrowError()
         })
     })
 })

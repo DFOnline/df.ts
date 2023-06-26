@@ -82,7 +82,7 @@ export class Vector extends ArgumentItem {
 
 export class Potion extends ArgumentItem {
     constructor(data: {
-        /**
+        /** 
          * Potion
          * @description English name used in the item display
          */
@@ -123,6 +123,8 @@ export class Sound extends ArgumentItem {
     }
 }
 
+// TODO: Particles, keep in mind https://gist.github.com/tk2217/1dbbb24aa69e54bdb2574aedb7e71e53
+
 export class GameValue extends ArgumentItem {
     constructor(data: {
         type: string,
@@ -131,6 +133,17 @@ export class GameValue extends ArgumentItem {
         if(typeof data.type != 'string') throw TypeError(`data.type should be a string not a ${typeof data.type}`)
         if(typeof data.target != 'string') throw TypeError(`data.target should be a string not a ${typeof data.target}`)
         super('g_val',data)
+    }
+}
+
+export class BlockTag extends ArgumentItem {
+    constructor(data: {option: string, tag: string, action: string, block: string}) {
+        if(typeof data.option != 'string') throw TypeError(`data.option should be a string not a ${typeof data.option}`)
+        if(typeof data.tag != 'string') throw TypeError(`data.tag should be a string not a ${typeof data.tag}`)
+        if(typeof data.action != 'string') throw TypeError(`data.action should be a string not a ${typeof data.action}`)
+        if(typeof data.block != 'string') throw TypeError(`data.block should be a string not a ${typeof data.block}`)
+
+        super('bl_tag',data)
     }
 }
 
@@ -147,5 +160,3 @@ export class MinecraftItem extends ArgumentItem {
         super('item',data);
     }
 }
-
-// TODO: Particles

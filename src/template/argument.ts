@@ -5,7 +5,7 @@ export class Arguments {
         this.items = items;
     }
 }
-// TODO: Do arguments
+
 export default class Argument {
     item: ArgumentItem
     slot: number
@@ -15,6 +15,10 @@ export default class Argument {
         if(slot < 0 || slot > 26) throw RangeError(`Slot index ${slot} is out of valid.`)
         this.item = item
         this.slot = slot
+    }
+
+    static parse(data : any) : Argument {
+        return new Argument(ArgumentItem.parse(data['item']), data['slot'])
     }
 }
 
@@ -26,6 +30,26 @@ export abstract class ArgumentItem {
         this.id = id;
         if(typeof id != 'string') throw TypeError(`Item id must be a string, not ${typeof id}`)
         if(typeof data != 'object') throw TypeError(`Item data must be an object, not ${typeof data}`);
+    }
+
+    static parse(data: any): ArgumentItem {
+        const types = new Map(Object.entries({
+            'txt': Named.bind(null,'txt'),
+            'num': Named.bind(null, 'num'),
+            'var': Variable,
+            'loc': Location,
+            'vec': Vector,
+            'pot': Potion,
+            'snd': Sound,
+            // 'part': Particle,
+            'g_val': GameValue,
+            'item': MinecraftItem,
+            'bl_tag': BlockTag,
+        }))
+        const id = data['id'] as string
+        const builder = types.get(id)
+        if(builder == null) throw TypeError("Invalid id")
+        return new builder(data['data'])
     }
 }
 

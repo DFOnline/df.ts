@@ -4,6 +4,12 @@ export class Arguments {
     constructor(items : Argument[] = []) {
         this.items = items;
     }
+
+    static parse(data : any) {
+        if(typeof data != 'object') throw TypeError(`data should be an object, not a ${typeof data}`);
+        if(!(data.items instanceof Array)) throw TypeError("data.items should be an Array");
+        return new Arguments(data.items.map((i : any) => Argument.parse(i)));
+    }
 }
 
 export default class Argument {
@@ -32,7 +38,8 @@ export abstract class ArgumentItem {
         if(typeof data != 'object') throw TypeError(`Item data must be an object, not ${typeof data}`);
     }
 
-    static parse(data: any): ArgumentItem {
+    static parse(data: any | Record<any,any>): ArgumentItem {
+        if(typeof data != 'object') throw TypeError(`data should be an object, not a ${typeof data}`)
         const types = new Map(Object.entries({
             'txt': Named.bind(null,'txt'),
             'num': Named.bind(null, 'num'),
@@ -49,7 +56,7 @@ export abstract class ArgumentItem {
         const id = data['id'] as string
         const builder = types.get(id)
         if(builder == null) throw TypeError("Invalid id")
-        return new builder(data['data'])
+        return new builder(data['data'] as any)
     }
 }
 

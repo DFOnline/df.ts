@@ -1,10 +1,22 @@
-import Argument, { ArgumentItem, BlockTag, GameValue, Location, MinecraftItem, Named, Potion, Sound, Variable, Vector } from '../src/template/argument'
+import Argument, { ArgumentItem, Arguments, BlockTag, GameValue, Location, MinecraftItem, Named, Potion, Sound, Variable, Vector } from '../src/template/argument'
 
 class DummyItem extends ArgumentItem {
     constructor() {
         super('test',{})
     }
 }
+
+describe("Arguments", () => {
+    test("Parsing", () => {
+        Arguments.parse({items: [
+            {slot:0,item:{id:"txt",data:{name:"text"}}},
+            {slot:1,item:{id:"num",data:{name:"0"}}},
+            {slot:2,item:{id:"var",data:{name:"var",scope:"local"}}},
+            // {slot:3,item:{id:"loc",data:{isBlock:false,loc:{x:1,y:2,z:3,pitch:90,yaw:-20}}}},
+            {slot:4,item:{id:"vec",data:{x:1,y:2,z:3}}}
+        ]})
+    })
+})
 
 describe("Argument", () => {
     describe("Constructor", () => {

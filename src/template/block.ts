@@ -12,12 +12,14 @@ export abstract class CodeBlock {
 type BracketDirect = "open" | "close";
 type BracketType = "norm" | "repeat";
 export class Bracket extends CodeBlock {
-    readonly id : "bracket" = "bracket";
+    override readonly id : "bracket" = "bracket";
     direct : BracketDirect = "open";
     type : BracketType = "norm";
 
     constructor(direct : BracketDirect = "open", type : BracketType = "norm") {
         super("bracket");
+        this.direct = direct;
+        this.type = type;
     }
 
     static check(data : any) : string | undefined {
@@ -41,7 +43,7 @@ export class Bracket extends CodeBlock {
 }
 
 export abstract class Block extends CodeBlock {
-    readonly id : "block" = "block";
+    override readonly id : "block" = "block";
     readonly block : string;
 
     constructor(block : string) {
@@ -57,7 +59,7 @@ export abstract class Block extends CodeBlock {
 }
 
 export class Else extends Block {
-    readonly block : "else" = "else";
+    override readonly block : "else" = "else";
 
     // TODO: write test for this
     static parse(data : any) : Else {
@@ -77,18 +79,23 @@ export class Else extends Block {
  */
 export abstract class ArgumentBlock extends Block {
     args?: Arguments;
+
+    constructor(block: string, args = new Arguments()) {
+        super(block);
+        this.args = args;
+    }
 }
 
 
 export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     data: string;
 
-    constructor(block : string, data : string) {
-        super(block)
+    constructor(block : string, data : string, args?: Arguments) {
+        super(block, args)
         this.data = data;
     }
 
-    static check(data : any) : string | undefined {
+    static override check(data : any) : string | undefined {
         const check = super.check(data);
         if(check != null) return check;
         if(typeof data.data != 'string') return 'data';
@@ -98,7 +105,9 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     static parse(data: any) {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
-        return new DataBlock(data.block, data.data);
+        // TODO: test args parsing
+        const args = data.args != null ? Arguments.parse(data.args) : undefined
+        return new DataBlock(data.block, data.data, args);
     }
 
     get secondLine(): string {
@@ -113,13 +122,13 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
     action: string;
     inverted: string = '';
 
-    constructor(block : string, action : string, inverted : string = '') {
-        super(block);
+    constructor(block : string, action : string, inverted : string = '', args?: Arguments) {
+        super(block, args);
         this.action = action;
         this.inverted = inverted;
     }
 
-    static check(data : any) : string | undefined {
+    static override check(data : any) : string | undefined {
         const check = super.check(data);
         if(check != null) return check;
         if(typeof data.inverted != 'string') return 'inverted';
@@ -151,21 +160,23 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
 export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
     target: string = "";
 
-    constructor(block : string, action : string, target?: string, inverted?: string) {
-        super(block,action,inverted);
+    constructor(block : string, action : string, target?: string, inverted?: string, args?: Arguments) {
+        super(block,action,inverted,args);
         this.target = target ?? "";
     }
 
-    static check(data: any): string | undefined {
+    static override check(data: any): string | undefined {
         const check = super.check(data);
         if(check != null) return check;
         if(typeof data.target != 'string') return 'check';
+        return;
     }
 
     static parse(data: any) : SelectionBlock {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
-        return new SelectionBlock(data.block, data.action, data.target, data.inverted)
+        const args = data.args != null ? Arguments.parse(data.args) : undefined;
+        return new SelectionBlock(data.block, data.action, data.target, data.inverted,args);
     }
 
     get thirdLine(): string {
@@ -179,21 +190,23 @@ export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
 export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
     subAction: string;
 
-    constructor(block : string, action : string, subAction?: string, inverted?: string) {
-        super(block,action,inverted);
+    constructor(block : string, action : string, subAction?: string, inverted?: string, args?: Arguments) {
+        super(block,action,inverted,args);
         this.subAction = subAction ?? "";
     }
 
-    static check(data: any): string | undefined {
+    static override check(data: any): string | undefined {
         const check = super.check(data);
         if(check != null) return check;
         if(typeof data.subAction != 'string') return 'check';
+        return;
     }
 
     static parse(data: any) : SubActionBlock {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
-        return new SubActionBlock(data.block, data.action, data.subAction, data.inverted)
+        const args = data.args != null ? Arguments.parse(data.args) : undefined;
+        return new SubActionBlock(data.block, data.action, data.subAction, data.inverted, args);
     }
 
     get thirdLine(): string {

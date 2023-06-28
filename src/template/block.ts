@@ -1,14 +1,14 @@
 import { SecondLineBlock, ThirdLineBlock, ForthLineBlock } from "./lines";
 import { Arguments } from "./argument";
 
-export abstract class CodeBlock {
+export abstract class TemplateBlock {
     readonly id : "block" | "bracket";
 
     constructor(id : "block" | "bracket") {
         this.id = id;
     }
 
-    static parse(data: any) : CodeBlock {
+    static parse(data: any) : TemplateBlock {
         const blockTypes = [SelectionBlock, SubActionBlock, DataBlock, Bracket, Else];
         for (const type of blockTypes) {
             if(type.check(data) == null) {
@@ -21,7 +21,7 @@ export abstract class CodeBlock {
 
 type BracketDirect = "open" | "close";
 type BracketType = "norm" | "repeat";
-export class Bracket extends CodeBlock {
+export class Bracket extends TemplateBlock {
     override readonly id : "bracket" = "bracket";
     direct : BracketDirect = "open";
     type : BracketType = "norm";
@@ -52,7 +52,7 @@ export class Bracket extends CodeBlock {
     }
 }
 
-export abstract class Block extends CodeBlock {
+export abstract class Block extends TemplateBlock {
     override readonly id : "block" = "block";
     readonly block : string;
 

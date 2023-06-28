@@ -1,4 +1,4 @@
-import { Bracket, CodeBlock, DataBlock, Else, SelectionBlock, SubActionBlock } from "./block";
+import { CodeBlock } from "./block";
 
 export default class Template {
     blocks : CodeBlock[];
@@ -8,16 +8,8 @@ export default class Template {
     }
 
     static parse(data : any) : Template {
-        const blockTypes = [SelectionBlock, SubActionBlock, DataBlock, Bracket, Else];
         if(!(data.blocks instanceof Array)) throw TypeError("blocks tag isn't array.");
-        const blocks = data.blocks.map((block : any, i : number) => {
-            for (const type of blockTypes) {
-                if(type.check(block) == null) {
-                    return type.parse(block);
-                }
-            }
-            throw TypeError(`Couldn't parse block at ${i}`);
-        });
+        const blocks = data.blocks.map((block : any) => CodeBlock.parse(block));
         return new Template(blocks);
     }
 }

@@ -7,6 +7,16 @@ export abstract class CodeBlock {
     constructor(id : "block" | "bracket") {
         this.id = id;
     }
+
+    static parse(data: any) : CodeBlock {
+        const blockTypes = [SelectionBlock, SubActionBlock, DataBlock, Bracket, Else];
+        for (const type of blockTypes) {
+            if(type.check(data) == null) {
+                return type.parse(data);
+            }
+        }
+        throw TypeError("Cannot parse block, no matching patterns")
+    }
 }
 
 type BracketDirect = "open" | "close";
@@ -29,7 +39,7 @@ export class Bracket extends CodeBlock {
         return;
     }
 
-    static parse(data : any) : Bracket {
+    static override parse(data : any) : Bracket {
         const check = this.check(data);
         if(check != null) {
             throw new TypeError(`${check} has bad value`)
@@ -62,7 +72,7 @@ export class Else extends Block {
     override readonly block : "else" = "else";
 
     // TODO: write test for this
-    static parse(data : any) : Else {
+    static override parse(data : any) : Else {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
         return new Else()
@@ -102,7 +112,7 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
         return;
     }
     
-    static parse(data: any) {
+    static override parse(data: any) {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
         // TODO: test args parsing
@@ -172,7 +182,7 @@ export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
         return;
     }
 
-    static parse(data: any) : SelectionBlock {
+    static override parse(data: any) : SelectionBlock {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
         const args = data.args != null ? Arguments.parse(data.args) : undefined;
@@ -202,7 +212,7 @@ export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
         return;
     }
 
-    static parse(data: any) : SubActionBlock {
+    static override parse(data: any) : SubActionBlock {
         const check = this.check(data);
         if(check != null) throw new TypeError(`${check} has bad value`);
         const args = data.args != null ? Arguments.parse(data.args) : undefined;

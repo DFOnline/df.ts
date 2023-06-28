@@ -40,23 +40,21 @@ export abstract class ArgumentItem {
 
     static parse(data: any | Record<any,any>): ArgumentItem {
         if(typeof data != 'object') throw TypeError(`data should be an object, not a ${typeof data}`)
-        const types = new Map(Object.entries({
-            'txt': Named.bind(null,'txt'),
-            'num': Named.bind(null, 'num'),
-            'var': Variable,
-            'loc': Location,
-            'vec': Vector,
-            'pot': Potion,
-            'snd': Sound,
-            // 'part': Particle,
-            'g_val': GameValue,
-            'item': MinecraftItem,
-            'bl_tag': BlockTag,
-        }))
-        const id = data['id'] as string
-        const builder = types.get(id)
-        if(builder == null) throw TypeError("Invalid id")
-        return new builder(data['data'] as any)
+        const i = data['id'];
+        const d = data['data'];
+        // ts doesn't like this as a switch/case, since g_val, item and bl_tag break the formality
+        if(i == 'txt'){ return new Named('txt',d) }
+        if(i == 'num'){ return new Named('num',d) }
+        if(i == 'var'){ return new Variable(d) }
+        if(i == 'loc'){ return new Location(d) }
+        if(i == 'vec'){ return new Vector(d) }
+        if(i == 'pot'){ return new Potion(d) }
+        if(i == 'snd'){ return new Sound(d) }
+        // if(i == 'part'){ return new Particle(d) }
+        if(i == 'g_val'){ new GameValue(d) }
+        if(i == 'item'){ new MinecraftItem(d) }
+        if(i == 'bl_tag'){ new BlockTag(d) }
+        throw new TypeError(`Invalid id of ${data['id']}`)
     }
 }
 

@@ -32,6 +32,10 @@
     "typescript": "^5.1.3"
   },
   "files": [
-    "./lib", "./src"
-  ]
+    "./lib",
+    "./src"
+  ],
+  "dependencies": {
+    "class-transformer": "^0.5.1"
+  }
 }

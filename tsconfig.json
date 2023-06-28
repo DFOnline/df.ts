@@ -26,6 +26,8 @@
       "checkJs": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
     },
     "include": ["src"],
     "exclude": ["node_modules", "**/test/*"]

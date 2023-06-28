@@ -51,10 +51,10 @@ export abstract class ArgumentItem {
         if(i == 'pot'){ return new Potion(d) }
         if(i == 'snd'){ return new Sound(d) }
         // if(i == 'part'){ return new Particle(d) }
-        if(i == 'g_val'){ new GameValue(d) }
-        if(i == 'item'){ new MinecraftItem(d) }
-        if(i == 'bl_tag'){ new BlockTag(d) }
-        throw new TypeError(`Invalid id of ${data['id']}`)
+        if(i == 'g_val'){ return new GameValue(d) }
+        if(i == 'item'){ return new MinecraftItem(d) }
+        if(i == 'bl_tag'){ return new BlockTag(d) }
+        throw new TypeError(`Invalid id of ${i}`)
     }
 }
 

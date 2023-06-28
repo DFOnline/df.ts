@@ -8,13 +8,20 @@ class DummyItem extends ArgumentItem {
 
 describe("Arguments", () => {
     test("Parsing", () => {
-        Arguments.parse({items: [
+        console.time('Parsing')
+        Arguments.parse({items: new Array(1000000).fill([
             {slot:0,item:{id:"txt",data:{name:"text"}}},
             {slot:1,item:{id:"num",data:{name:"0"}}},
             {slot:2,item:{id:"var",data:{name:"var",scope:"local"}}},
-            // {slot:3,item:{id:"loc",data:{isBlock:false,loc:{x:1,y:2,z:3,pitch:90,yaw:-20}}}},
-            {slot:4,item:{id:"vec",data:{x:1,y:2,z:3}}}
-        ]})
+            {slot:3,item:{id:"loc",data:{isBlock:false,loc:{x:1,y:2,z:3,pitch:90,yaw:-20}}}},
+            {slot:4,item:{id:"vec",data:{x:1,y:2,z:3}}},
+            {slot:5,item:{id:"pot",data:{pot: "potion", dur: 100000, amp: 4}}},
+            {slot:6,item:{id:"snd",data:{sound:"sound",pitch:1,vol:2}}},
+            {slot:7,item:{id:"g_val",data:{type:'game value',target:'default'}}},
+            {slot:8,item:{id:"bl_tag",data:{option: "option", tag: "tag", action: "action", block: "block"}}},
+            {slot:9,item:{id:"item",data:{item:"{Count:1b}"}}},
+        ]).flat()})
+        console.time('Parsing')
     })
 })
 

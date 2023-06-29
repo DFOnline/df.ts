@@ -1,5 +1,8 @@
+import 'reflect-metadata';
+
 import { SecondLineBlock, ThirdLineBlock, ForthLineBlock } from "./lines";
 import { Arguments } from "./argument";
+import { Type, plainToInstance } from 'class-transformer';
 
 export abstract class TemplateBlock {
     readonly id : "block" | "bracket";
@@ -9,7 +12,7 @@ export abstract class TemplateBlock {
     }
 
     static parse(data: any) : TemplateBlock {
-        const blockTypes = [SelectionBlock, SubActionBlock, DataBlock, Bracket, Else];
+        const blockTypes = [SelectionBlock, SubActionBlock, DataBlock, Else];
         for (const type of blockTypes) {
             if(type.check(data) == null) {
                 return type.parse(data);
@@ -32,23 +35,9 @@ export class Bracket extends TemplateBlock {
         this.type = type;
     }
 
-    static check(data : any) : string | undefined {
-        if (data.id != 'bracket') return 'id';
-        if (data.direct != 'open' && data.direct != 'close') return 'direct';
-        if (data.type != "norm" && data.type != "repeat") return 'type';
-        return;
-    }
-
-    static override parse(data : any) : Bracket {
-        const check = this.check(data);
-        if(check != null) {
-            throw new TypeError(`${check} has bad value`)
-        }
-        
-        const bracket = new Bracket();
-        bracket.direct = data.direct;
-        bracket.type = data.type;
-        return bracket;
+    static override parse(data : unknown) : Bracket {
+        const res = plainToInstance(Bracket,data);
+        return res;
     }
 }
 
@@ -88,6 +77,7 @@ export class Else extends Block {
  * Most have chests.
  */
 export abstract class ArgumentBlock extends Block {
+    @Type(() => Arguments)
     args?: Arguments;
 
     constructor(block: string, args = new Arguments()) {
@@ -104,20 +94,9 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
         super(block, args)
         this.data = data;
     }
-
-    static override check(data : any) : string | undefined {
-        const check = super.check(data);
-        if(check != null) return check;
-        if(typeof data.data != 'string') return 'data';
-        return;
-    }
     
-    static override parse(data: any) {
-        const check = this.check(data);
-        if(check != null) throw new TypeError(`${check} has bad value`);
-        // TODO: test args parsing
-        const args = data.args != null ? Arguments.parse(data.args) : undefined
-        return new DataBlock(data.block, data.data, args);
+    static override parse(data: unknown) {
+        return plainToInstance(DataBlock, data)
     }
 
     get secondLine(): string {
@@ -136,13 +115,6 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
         super(block, args);
         this.action = action;
         this.inverted = inverted;
-    }
-
-    static override check(data : any) : string | undefined {
-        const check = super.check(data);
-        if(check != null) return check;
-        if(typeof data.inverted != 'string') return 'inverted';
-        return;
     }
 
     get secondLine(): string {
@@ -175,18 +147,8 @@ export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
         this.target = target ?? "";
     }
 
-    static override check(data: any): string | undefined {
-        const check = super.check(data);
-        if(check != null) return check;
-        if(typeof data.target != 'string') return 'check';
-        return;
-    }
-
-    static override parse(data: any) : SelectionBlock {
-        const check = this.check(data);
-        if(check != null) throw new TypeError(`${check} has bad value`);
-        const args = data.args != null ? Arguments.parse(data.args) : undefined;
-        return new SelectionBlock(data.block, data.action, data.target, data.inverted,args);
+    static override parse(data: unknown) : SelectionBlock {
+        return plainToInstance(SelectionBlock, data);
     }
 
     get thirdLine(): string {
@@ -205,18 +167,8 @@ export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
         this.subAction = subAction ?? "";
     }
 
-    static override check(data: any): string | undefined {
-        const check = super.check(data);
-        if(check != null) return check;
-        if(typeof data.subAction != 'string') return 'check';
-        return;
-    }
-
-    static override parse(data: any) : SubActionBlock {
-        const check = this.check(data);
-        if(check != null) throw new TypeError(`${check} has bad value`);
-        const args = data.args != null ? Arguments.parse(data.args) : undefined;
-        return new SubActionBlock(data.block, data.action, data.subAction, data.inverted, args);
+    static override parse(data: unknown) : SubActionBlock {
+        return plainToInstance(SubActionBlock, data);
     }
 
     get thirdLine(): string {

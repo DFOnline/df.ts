@@ -30,20 +30,6 @@ describe("Codeblock", () => {
                     expect(bracket.type).toBe('repeat')
                 })
             })
-            describe("Errors", () => {
-                test("Bad parsing data", () => {
-                    expect(() => Bracket.parse(`{"id":"bracket","direct":"open","type":"norm"}`)).toThrowError()
-                })
-                test("Missing id", () => {
-                    expect(() => Bracket.parse({direct: "open", type: "norm"})).toThrowError()
-                })
-                test("Bad direct", () => {
-                    expect(() => Bracket.parse({id: "bracket", direct: "something", type: "norm"})).toThrowError()
-                })
-                test("Bad type", () => {
-                    expect(() => Bracket.parse({id: "bracket", direct: "open", type: "something"})).toThrowError()
-                })
-            })
         })
     })
 
@@ -61,23 +47,12 @@ describe("Codeblock", () => {
                 expect(dataBlock.id).toBe('block')
                 expect(dataBlock.data).toBe('data')
             })
-            describe("Parsing", () => {
-                test("Data", () => {
-                    const dataBlock = DataBlock.parse({id:'block',block:'func',data:'test'})
-                    expect(dataBlock).toBeInstanceOf(DataBlock)
-                    expect(dataBlock.id).toBe('block')
-                    expect(dataBlock.block).toBe('func')
-                    expect(dataBlock.data).toBe('test')
-                })
-                test("Missing data", () => {
-                    expect(() => DataBlock.parse({id:'block',block:'func'})).toThrowError()
-                })
-                test("Missing block", () => {
-                    expect(() => DataBlock.parse({id:'block',data:'test'})).toThrowError()
-                })
-                test("Missing id", () => {
-                    expect(() => DataBlock.parse({block:'func',data:'test'})).toThrowError()
-                })
+            test("Parsing", () => {
+                const dataBlock = DataBlock.parse({id:'block',block:'func',data:'test'})
+                expect(dataBlock).toBeInstanceOf(DataBlock)
+                expect(dataBlock.id).toBe('block')
+                expect(dataBlock.block).toBe('func')
+                expect(dataBlock.data).toBe('test')
             })
             describe("Second line", () => {
                 test("Gets data", () => {
@@ -176,22 +151,13 @@ describe("Codeblock", () => {
                     expect(selection.inverted).toBe("inverted")
                 })
             })
-            describe("Parsing", () => {
-                test("Valid", () => {
-                    const selection = SelectionBlock.parse({id:"block",block:"block",action:"action",target:"target",inverted:"NOT"})
-                    expect(selection).toBeInstanceOf(SelectionBlock)
-                    expect(selection.id).toBe('block')
-                    expect(selection.action).toBe('action')
-                    expect(selection.target).toBe('target')
-                    expect(selection.inverted).toBe('NOT')
-                })
-                test("Invalid", () => {
-                    expect(() => SelectionBlock.parse({block:"block",action:"action",target:"target",inverted:"NOT"})).toThrowError()
-                    expect(() => SelectionBlock.parse({id:"block",action:"action",target:"target",inverted:"NOT"})).toThrowError()
-                    expect(() => SelectionBlock.parse({id:"block",target:"target",inverted:"NOT"})).toThrowError()
-                    expect(() => SelectionBlock.parse({id:"block",block:"block",action:"action",inverted:"NOT"})).toThrowError()
-                    expect(() => SelectionBlock.parse({id:"block",block:"block",action:"action",target:"target"})).toThrowError()
-                })
+            test("Parsing", () => {
+                const selection = SelectionBlock.parse({id:"block",block:"block",action:"action",target:"target",inverted:"NOT"})
+                expect(selection).toBeInstanceOf(SelectionBlock)
+                expect(selection.id).toBe('block')
+                expect(selection.action).toBe('action')
+                expect(selection.target).toBe('target')
+                expect(selection.inverted).toBe('NOT')
             })
             describe("Third line", () => {
                 test("Getting", () => {

@@ -4,7 +4,7 @@
   "description": "Classes and wrappers for DF data for use in node.js or the web",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "jest",
     "build": "tsc",

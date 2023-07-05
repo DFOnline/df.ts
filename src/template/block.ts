@@ -61,9 +61,8 @@ export class Else extends Block {
     override readonly block : "else" = "else";
 
     // TODO: write test for this
-    static override parse(data : any) : Else {
-        const check = this.check(data);
-        if(check != null) throw new TypeError(`${check} has bad value`);
+    static override parse(data: any) : Else {
+        data; // Follow the constructor pattern, fix the typescript error
         return new Else()
     }
 

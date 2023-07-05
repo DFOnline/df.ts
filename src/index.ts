@@ -1,14 +1,15 @@
 import 'reflect-metadata';
 
+// ActionDump
 import ActionDump from './actiondump/actiondump';
 import CodeBlock from './actiondump/codeblock';
-
-import Template from "./template/template";
-import { Block, Bracket, ArgumentBlock, ActionBlock, TemplateBlock, DataBlock, Else, SelectionBlock, SubActionBlock } from "./template/block";
-import { SecondLineBlock, ThirdLineBlock, ForthLineBlock } from "./template/lines";
-
-export { Template };
-export { Block, Bracket, ArgumentBlock, ActionBlock, TemplateBlock, DataBlock, Else, SelectionBlock, SubActionBlock };
-export { SecondLineBlock, ThirdLineBlock, ForthLineBlock };
-
 export { ActionDump, CodeBlock }
+export * from './actiondump/codeblock';
+
+// Template
+import Argument from './template/argument';
+import Template from './template/template';
+export * from './template/block'
+export * from './template/lines'
+export * from './template/argument'
+export { Argument, Template }

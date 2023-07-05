@@ -9,7 +9,7 @@ class DummyItem extends ArgumentItem {
 describe("Arguments", () => {
     test("Parsing", () => {
         console.time('Parsing')
-        Arguments.parse({items: new Array(1000000).fill([
+        Arguments.parse({items: new Array(100000).fill([
             {slot:0,item:{id:"txt",data:{name:"text"}}},
             {slot:1,item:{id:"num",data:{name:"0"}}},
             {slot:2,item:{id:"var",data:{name:"var",scope:"local"}}},

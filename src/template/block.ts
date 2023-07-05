@@ -12,13 +12,15 @@ export abstract class TemplateBlock {
     }
 
     static parse(data: any) : TemplateBlock {
-        const blockTypes = [SelectionBlock, SubActionBlock, DataBlock, Else];
-        for (const type of blockTypes) {
-            if(type.check(data) == null) {
-                return type.parse(data);
-            }
+        if(data.id == 'bracket') return Bracket.parse(data)
+        if(data.id == 'block') {
+            if('data' in data) return DataBlock.parse(data);
+            if('subAction' in data) return SubActionBlock.parse(data);
+            if('target' in data) return SelectionBlock.parse(data);
+            if('action' in data) return ActionBlock.parse(data);
+            if(data.block == 'else') return new Else()
         }
-        throw TypeError("Cannot parse block, no matching patterns")
+        throw TypeError("Not a valid block type")
     }
 }
 
@@ -49,22 +51,10 @@ export abstract class Block extends TemplateBlock {
         super("block");
         this.block = block;
     }
-
-    static check(data : any) : string | undefined {
-        if(data.id != 'block') return 'id';
-        if(typeof data.block != 'string') return 'block';
-        return;
-    }
 }
 
 export class Else extends Block {
     override readonly block : "else" = "else";
-
-    // TODO: write test for this
-    static override parse(data: any) : Else {
-        data; // Follow the constructor pattern, fix the typescript error
-        return new Else()
-    }
 
     constructor() {
         super('else')
@@ -114,6 +104,10 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
         super(block, args);
         this.action = action;
         this.inverted = inverted;
+    }
+
+    static override parse(data: unknown): ActionBlock {
+        return plainToInstance(ActionBlock, data);
     }
 
     get secondLine(): string {

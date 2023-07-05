@@ -9,7 +9,14 @@ export default class Template {
 
     static parse(data : any) : Template {
         if(!(data.blocks instanceof Array)) throw TypeError("blocks tag isn't array.");
-        const blocks = data.blocks.map((block : any) => TemplateBlock.parse(block));
+        const blocks = data.blocks.map((block : any, i : number) => {
+            try {
+                return TemplateBlock.parse(block)
+            }
+            catch (e) {
+                throw TypeError(`Couldn't parse block at ${i} because ${e}`)
+            }
+        });
         return new Template(blocks);
     }
 }

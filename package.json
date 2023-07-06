@@ -1,6 +1,6 @@
 {
   "name": "df.ts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Classes and wrappers for DF data for use in node.js or the web",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

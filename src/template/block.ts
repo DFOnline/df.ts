@@ -12,13 +12,13 @@ export abstract class TemplateBlock {
     }
 
     static parse(data: any) : TemplateBlock {
-        if(data.id == 'bracket') return Bracket.parse(data)
+        if(data.id == 'bracket') return Bracket.parse(data);
         if(data.id == 'block') {
             if('data' in data) return DataBlock.parse(data);
             if('subAction' in data) return SubActionBlock.parse(data);
             if('target' in data) return SelectionBlock.parse(data);
             if('action' in data) return ActionBlock.parse(data);
-            if(data.block == 'else') return new Else()
+            if(data.block == 'else') return new Else();
         }
         throw TypeError("Not a valid block type")
     }
@@ -57,7 +57,7 @@ export class Else extends Block {
     override readonly block : "else" = "else";
 
     constructor() {
-        super('else')
+        super('else');
     }
 }
 
@@ -83,13 +83,13 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
         super(block, args)
         this.data = data;
     }
-    
+
     static override parse(data: unknown) {
         return plainToInstance(DataBlock, data)
     }
 
     get secondLine(): string {
-        return this.data
+        return this.data;
     }
     set secondLine(string: string) {
         this.data = string;

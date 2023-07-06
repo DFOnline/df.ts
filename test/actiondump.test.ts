@@ -9,4 +9,4 @@ test("ActionDump", () => {
     if(cb == null) return
     expect(cb).toBeInstanceOf(CodeBlock)
     expect(cb.item).toBeInstanceOf(Icon)
-})
+});

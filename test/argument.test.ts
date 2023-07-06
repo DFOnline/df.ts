@@ -1,8 +1,9 @@
 import Argument, { ArgumentItem, Arguments, BlockTag, GameValue, Location, MinecraftItem, Named, Potion, Sound, Variable, Vector } from '../src/template/argument'
 
-class DummyItem extends ArgumentItem {
+class DummyItem extends ArgumentItem<{}> {
+    data = {} // "data" is abstract so the type is determined by ArgumentItem class.
     constructor() {
-        super('test',{})
+        super('test', {})
     }
 }
 
@@ -28,73 +29,74 @@ describe("Arguments", () => {
 describe("Argument", () => {
     describe("Constructor", () => {
         test("Valid", () => {
-            new Argument(new DummyItem(), 0)
-            new Argument(new DummyItem(), 1)
-            new Argument(new DummyItem(), 5)
-            new Argument(new DummyItem(), 20)
-            new Argument(new DummyItem(), 26)
+            new Argument(new DummyItem(), 0);
+            new Argument(new DummyItem(), 1);
+            new Argument(new DummyItem(), 5);
+            new Argument(new DummyItem(), 20);
+            new Argument(new DummyItem(), 26);
         })
         test("Out of range", () => {
-            expect(() => new Argument(new DummyItem(), -1)).toThrowError()
-            expect(() => new Argument(new DummyItem(), 27)).toThrowError()
+            expect(() => new Argument(new DummyItem(), -1)).toThrowError();
+            expect(() => new Argument(new DummyItem(), 27)).toThrowError();
         })
         test("Not items", () => {
-            expect(() => new Argument({} as any, 0)).toThrowError()
+            expect(() => new Argument({} as any, 0)).toThrowError();
         })
     })
 })
 
-class TestItem extends ArgumentItem {
+class TestItem extends ArgumentItem<any> {
+    data: any; // "data implicitly has any type" shur up typescript
     constructor(id: string, data: any) {
-        super(id, data)
-    } 
+        super(id, data);
+    }
 }
 
 describe("Item",() => {
     describe("Abstract", () => {
         describe("Valid", () => {
-            new TestItem('test',{})
-            new TestItem('test',{'key':'value'})
-        })
+            new TestItem('test',{});
+            new TestItem('test',{'key':'value'});
+        });
         describe("Bad id", () => {
-            expect(() => new TestItem(null as any,{})).toThrowError()
-            expect(() => new TestItem(new String() as any,{})).toThrowError()
-            expect(() => new TestItem({} as any,{})).toThrowError()
-        })
+            expect(() => new TestItem(null as any,{})).toThrowError();
+            expect(() => new TestItem(new String() as any,{})).toThrowError();
+            expect(() => new TestItem({} as any,{})).toThrowError();
+        });
         describe("Bad data", () => {
-            //@ts-ignore
-            expect(() => new TestItem('test')).toThrowError()
+            //@ts-ignore // why
+            expect(() => new TestItem('test')).toThrowError();
             // expect(() => new TestItem('test',null)).toThrowError()
-            expect(() => new TestItem('test','{"key":"value"')).toThrowError()
-        })
-    })
+            expect(() => new TestItem('test','{"key":"value"')).toThrowError();
+        });
+    });
 
     describe("Named", () => {
         test("Valid", () => {
-            new Named('num',{name:'3592'})
-            new Named('txt',{name:'hello'})
-        })
+            new Named('num',{name:'3592'});
+            new Named('txt',{name:'hello'});
+        });
         test("Bad id", () => {
-            expect(() => new Named('invalid' as any,{name:'invalid'})).toThrowError()
-        })
+            expect(() => new Named('invalid' as any,{name:'invalid'})).toThrowError();
+        });
         test("Bad value", () => {
-            expect(() => new Named('num',3592 as any)).toThrowError()
-            expect(() => new Named('txt','hello' as any)).toThrowError()
-        })
+            expect(() => new Named('num',3592 as any)).toThrowError();
+            expect(() => new Named('txt','hello' as any)).toThrowError();
+        });
 
         describe("Variable", () => {
             test("Valid", () => {
-                new Variable({name:'var',scope:'unsaved'})
-                new Variable({name:'var',scope:'saved'})
-                new Variable({name:'var',scope:'local'})
-            })
+                new Variable({name:'var',scope:'unsaved'});
+                new Variable({name:'var',scope:'saved'});
+                new Variable({name:'var',scope:'local'});
+            });
             test("Invalid", () => {
-                expect(() => new Variable({name:'var'} as any)).toThrowError()
-                expect(() => new Variable({scope:'local'} as any)).toThrowError()
-                expect(() => new Variable({name:'var',scope:'invalid'} as any)).toThrowError()
-            })
-        })
-    })
+                expect(() => new Variable({name:'var'} as any)).toThrowError();
+                expect(() => new Variable({scope:'local'} as any)).toThrowError();
+                expect(() => new Variable({name:'var',scope:'invalid'} as any)).toThrowError();
+            });
+        });
+    });
 
     describe("Location", () => {
         test("Valid", () => {

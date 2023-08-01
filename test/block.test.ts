@@ -72,6 +72,7 @@ describe("Codeblock", () => {
         describe("Action Block", () => {
             describe("Constructor", () => {
                 test("With inverted", () => {
+                    // TODO: if you are in an editor the type errors are painfully obvious.
                     const action = new ActionBlock("if","alive","NOT")
                     expect(action.block).toBe('if')
                     expect(action.action).toBe('alive')

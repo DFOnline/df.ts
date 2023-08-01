@@ -24,8 +24,8 @@ export abstract class TemplateBlock {
     }
 }
 
-type BracketDirect = "open" | "close";
-type BracketType = "norm" | "repeat";
+export type BracketDirect = "open" | "close";
+export type BracketType = "norm" | "repeat";
 export class Bracket extends TemplateBlock {
     override readonly id : "bracket" = "bracket";
     direct : BracketDirect = "open";
@@ -43,11 +43,12 @@ export class Bracket extends TemplateBlock {
     }
 }
 
+export type BlockBlock = ArgumentBlockBlock | "else";
 export abstract class Block extends TemplateBlock {
     override readonly id : "block" = "block";
-    readonly block : string;
+    readonly block : BlockBlock;
 
-    constructor(block : string) {
+    constructor(block : BlockBlock) {
         super("block");
         this.block = block;
     }
@@ -61,6 +62,7 @@ export class Else extends Block {
     }
 }
 
+export type ArgumentBlockBlock = DataBlockBlock | ActionBlockBlock | SubActionBlockBlock; 
 /**
  * A block with arguments
  * Most have chests.
@@ -69,17 +71,18 @@ export abstract class ArgumentBlock extends Block {
     @Type(() => Arguments)
     args?: Arguments;
 
-    constructor(block: string, args = new Arguments()) {
+    constructor(block: ArgumentBlockBlock, args = new Arguments()) {
         super(block);
         this.args = args;
     }
 }
 
 
+export type DataBlockBlock = "func" | "call_func" | "process" | "start_process";
 export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     data: string;
 
-    constructor(block : string, data : string, args?: Arguments) {
+    constructor(block : DataBlockBlock, data : string, args?: Arguments) {
         super(block, args)
         this.data = data;
     }
@@ -96,11 +99,14 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     }
 }
 
+
+export type ActionBlockBlock = SelectionBlockBlock | SubActionBlockBlock;
 export class ActionBlock extends ArgumentBlock implements SecondLineBlock, ForthLineBlock {
     action: string;
     inverted: string = '';
 
-    constructor(block : string, action : string, inverted : string = '', args?: Arguments) {
+
+    constructor(block : ActionBlockBlock, action : string, inverted : string = '', args?: Arguments) {
         super(block, args);
         this.action = action;
         this.inverted = inverted;
@@ -132,10 +138,11 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
     }
 }
 
+export type SelectionBlockBlock = "event" | "player_action" | "entity_event" | "entity_action" | "set_var" | "game_action" | "control" | "select_obj";
 export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
     target: string = "";
 
-    constructor(block : string, action : string, target?: string, inverted?: string, args?: Arguments) {
+    constructor(block : SelectionBlockBlock, action : string, target?: string, inverted?: string, args?: Arguments) {
         super(block,action,inverted,args);
         this.target = target ?? "";
     }
@@ -152,10 +159,11 @@ export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
     }
 }
 
+export type SubActionBlockBlock = "if_entity" | "if_game" | "if_player" | "if_var" | "repeat";
 export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
     subAction: string;
 
-    constructor(block : string, action : string, subAction?: string, inverted?: string, args?: Arguments) {
+    constructor(block : SubActionBlockBlock, action : string, subAction?: string, inverted?: string, args?: Arguments) {
         super(block,action,inverted,args);
         this.subAction = subAction ?? "";
     }
@@ -171,3 +179,9 @@ export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
         this.subAction = string;
     }
 }
+
+// JSON.parse($0.innerText).codeblocks.map(a => [a.identifier, a.name])
+const defaultBlockNames : [BlockBlock, String][] = [["player_action","PLAYER ACTION"],["if_player","IF PLAYER"],["start_process","START PROCESS"],["call_func","CALL FUNCTION"],["control","CONTROL"],["set_var","SET VARIABLE"],["entity_event","ENTITY EVENT"],["event","PLAYER EVENT"],["func","FUNCTION"],["if_entity","IF ENTITY"],["entity_action","ENTITY ACTION"],["if_var","IF VARIABLE"],["select_obj","SELECT OBJECT"],["game_action","GAME ACTION"],["else","ELSE"],["process","PROCESS"],["repeat","REPEAT"],["if_game","IF GAME"]]
+
+export const idToName = new Map(defaultBlockNames);
+export const nameToId = new Map(defaultBlockNames.map(x => x.reverse()) as [String, BlockBlock][]);

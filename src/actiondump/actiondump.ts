@@ -1,11 +1,18 @@
 import 'reflect-metadata';
 
 import CodeBlock from "./codeblock";
-import { Type } from 'class-transformer';
+import { Type, plainToInstance } from 'class-transformer';
+import Action, { Argument } from './action';
 
 export default class ActionDump {
     @Type(() => CodeBlock)
-    codeblocks = [new CodeBlock()];
+    codeblocks = [new CodeBlock];
+    @Type(() => Action)
+    actions = [new Action];
+
+    static parse(data: any) {
+        return plainToInstance(ActionDump, data)
+    }
 }
 
 export class Icon {
@@ -28,6 +35,14 @@ export class Icon {
     isLegacy() : boolean {
         return this.material == 'STONE';
     }
+
+    @Type(() => Argument)
+    arguments?:               Argument[];
+    tags?:                    number;
+    cancellable?:             boolean;
+    cancelledAutomatically?:  boolean;
+    returnType?:              ValueType;
+    returnDescription?:       string[];
 }
 
 export class Color {

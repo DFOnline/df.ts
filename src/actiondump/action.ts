@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { Icon, ValueType } from "./actiondump";
 import { CodeblockName } from "./codeblock";
 
@@ -6,16 +7,8 @@ export default class Action {
     codeblockName: CodeblockName = CodeblockName.PlayerEvent;
     tags: Tag[] = [];
     aliases: string[] = [];
-    icon: ActionIcon = new ActionIcon;
-}
-
-export class ActionIcon extends Icon {
-    arguments:               Argument[] = [];
-    tags:                    number = 0;
-    cancellable:             boolean = false;
-    cancelledAutomatically:  boolean = false;
-    returnType:              ValueType = ValueType.AnyType;
-    returnDescription:       string[] = [];
+    @Type(() => Icon)
+    icon: Icon = new Icon;
 }
 
 export class Argument {

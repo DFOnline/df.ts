@@ -1,9 +1,10 @@
 import { plainToInstance } from 'class-transformer'
 import ActionDump, { Icon } from '../src/actiondump/actiondump'
 import CodeBlock from '../src/actiondump/codeblock'
+import { readFile } from 'fs/promises'
 
-test("ActionDump", () => {
-    const db = plainToInstance(ActionDump, {"codeblocks":[{"name":"PLAYER EVENT","identifier":"event","icon":{}}]})
+test("ActionDump", async () => {
+    const db = plainToInstance(ActionDump, (await readFile('test/actiondump.json')).toJSON())
     expect(db).toBeInstanceOf(ActionDump)
     const cb = db.codeblocks[0]
     if(cb == null) return

@@ -73,25 +73,25 @@ describe("Codeblock", () => {
             describe("Constructor", () => {
                 test("With inverted", () => {
                     // TODO: if you are in an editor the type errors are painfully obvious.
-                    const action = new ActionBlock("if","alive","NOT")
-                    expect(action.block).toBe('if')
+                    const action = new ActionBlock("if_player","alive","NOT")
+                    expect(action.block).toBe('if_player')
                     expect(action.action).toBe('alive')
                     expect(action.inverted).toBe('NOT')
                 })
                 test("Without inverted", () => {
-                    const action = new ActionBlock("if","alive","")
-                    expect(action.block).toBe('if')
+                    const action = new ActionBlock("if_player","alive","")
+                    expect(action.block).toBe('if_player')
                     expect(action.action).toBe('alive')
                     expect(action.inverted).toBe('')
                 })
             })
             describe("Second line", () => {
                 test("Getting", () => {
-                    const action = new ActionBlock("block","action","NOT")
+                    const action = new ActionBlock("player_action","action","NOT")
                     expect(action.secondLine).toBe("action")
                 })
                 test("Setting", () => {
-                    const action = new ActionBlock("block","action2","NOT")
+                    const action = new ActionBlock("player_action","action2","NOT")
                     action.secondLine = 'action3'
                     expect(action.action).toBe("action3")
                     expect(action.secondLine).toBe("action3")
@@ -99,11 +99,11 @@ describe("Codeblock", () => {
             })
             describe("Forth line", () => {
                 test("Getting", () => {
-                    const action = new ActionBlock("block","action","NOT")
+                    const action = new ActionBlock("player_action","action","NOT")
                     expect(action.forthLine).toBe('NOT')
                 })
                 test("Setting", () => {
-                    const action = new ActionBlock("block","action","NOT1")
+                    const action = new ActionBlock("player_action","action","NOT1")
                     action.forthLine = "NOT2"
                     expect(action.inverted).toBe('NOT2')
                     expect(action.forthLine).toBe('NOT2')
@@ -111,17 +111,17 @@ describe("Codeblock", () => {
             })
             describe("NOT", () => {
                 test("Getting", () => {
-                    const invertedAction = new ActionBlock("block","action","NOT")
+                    const invertedAction = new ActionBlock("player_action","action","NOT")
                     expect(invertedAction.not).toBe(true)
-                    const regularAction = new ActionBlock("block","action")
+                    const regularAction = new ActionBlock("player_action","action")
                     expect(regularAction.not).toBe(false)
                 })
                 test("Setting", () => {
-                    const invertedAction = new ActionBlock("block","action","NOT")
+                    const invertedAction = new ActionBlock("player_action","action","NOT")
                     invertedAction.not = false
                     expect(invertedAction.inverted).toBe('')
                     expect(invertedAction.not).toBe(false)
-                    const regularAction = new ActionBlock("block","action")
+                    const regularAction = new ActionBlock("player_action","action")
                     regularAction.not = true
                     expect(regularAction.inverted).toBe('NOT')
                     expect(regularAction.not).toBe(true)
@@ -131,42 +131,42 @@ describe("Codeblock", () => {
         describe("Selection Block", () => {
             describe("Constructor", () => {
                 test("Only block and action", () => {
-                    const selection = new SelectionBlock("block","action")
-                    expect(selection.block).toBe("block")
+                    const selection = new SelectionBlock("player_action","action")
+                    expect(selection.block).toBe("player_action")
                     expect(selection.action).toBe("action")
                     expect(selection.target).toBe("")
                     expect(selection.inverted).toBe("")
                 })
                 test("With target", () => {
-                    const selection = new SelectionBlock("block","action","target")
-                    expect(selection.block).toBe("block")
+                    const selection = new SelectionBlock("player_action","action","target")
+                    expect(selection.block).toBe("player_action")
                     expect(selection.action).toBe("action")
                     expect(selection.target).toBe("target")
                     expect(selection.inverted).toBe("")
                 })
                 test("With target and inverted", () => {
-                    const selection = new SelectionBlock("block","action","target","inverted")
-                    expect(selection.block).toBe("block")
+                    const selection = new SelectionBlock("player_action","action","target","inverted")
+                    expect(selection.block).toBe("player_action")
                     expect(selection.action).toBe("action")
                     expect(selection.target).toBe("target")
                     expect(selection.inverted).toBe("inverted")
                 })
             })
             test("Parsing", () => {
-                const selection = SelectionBlock.parse({id:"block",block:"block",action:"action",target:"target",inverted:"NOT"})
+                const selection = SelectionBlock.parse({id:"player_action",block:"player_action",action:"action",target:"target",inverted:"NOT"})
                 expect(selection).toBeInstanceOf(SelectionBlock)
-                expect(selection.id).toBe('block')
+                expect(selection.id).toBe('player_action')
                 expect(selection.action).toBe('action')
                 expect(selection.target).toBe('target')
                 expect(selection.inverted).toBe('NOT')
             })
             describe("Third line", () => {
                 test("Getting", () => {
-                    const selection = new SelectionBlock("block","action","target")
+                    const selection = new SelectionBlock("player_action","action","target")
                     expect(selection.thirdLine).toBe("target")
                 })
                 test("Setting", () => {
-                    const selection = new SelectionBlock("block","action","target1")
+                    const selection = new SelectionBlock("player_action","action","target1")
                     selection.thirdLine = "target2"
                     expect(selection.target).toBe("target2")
                     expect(selection.thirdLine).toBe("target2")
@@ -176,22 +176,22 @@ describe("Codeblock", () => {
         describe("SubAction Block", () => {
             describe("Constructor", () => {
                 test("Only block and action", () => {
-                    const selection = new SubActionBlock("block","action")
-                    expect(selection.block).toBe("block")
+                    const selection = new SubActionBlock("if_player","action")
+                    expect(selection.block).toBe("if_player")
                     expect(selection.action).toBe("action")
                     expect(selection.subAction).toBe("")
                     expect(selection.inverted).toBe("")
                 })
                 test("With target", () => {
-                    const selection = new SubActionBlock("block","action","subAction")
-                    expect(selection.block).toBe("block")
+                    const selection = new SubActionBlock("if_player","action","subAction")
+                    expect(selection.block).toBe("if_player")
                     expect(selection.action).toBe("action")
                     expect(selection.subAction).toBe("subAction")
                     expect(selection.inverted).toBe("")
                 })
                 test("With target and inverted", () => {
-                    const selection = new SubActionBlock("block","action","subAction","inverted")
-                    expect(selection.block).toBe("block")
+                    const selection = new SubActionBlock("if_player","action","subAction","inverted")
+                    expect(selection.block).toBe("if_player")
                     expect(selection.action).toBe("action")
                     expect(selection.subAction).toBe("subAction")
                     expect(selection.inverted).toBe("inverted")
@@ -200,11 +200,11 @@ describe("Codeblock", () => {
 
             describe("Third line", () => {
                 test("Getting", () => {
-                    const selection = new SubActionBlock("block","action","subAction")
+                    const selection = new SubActionBlock("if_player","action","subAction")
                     expect(selection.thirdLine).toBe("subAction")
                 })
                 test("Setting", () => {
-                    const selection = new SubActionBlock("block","action","subAction1")
+                    const selection = new SubActionBlock("if_player","action","subAction1")
                     selection.thirdLine = "subAction2"
                     expect(selection.subAction).toBe("subAction2")
                     expect(selection.thirdLine).toBe("subAction2")

@@ -1,8 +1,11 @@
+import "reflect-metadata"
+import { Type } from "class-transformer";
 import { Icon } from "./actiondump"
 
 export default class CodeBlock {
     name : CodeblockName = CodeblockName.PlayerEvent;
     identifier = "";
+    @Type(() => Icon)
     item = new Icon;
 }
 

@@ -1,5 +1,5 @@
 import ActionDump, { Icon } from '../src/actiondump/actiondump'
-import CodeBlock, { CodeblockName } from '../src/actiondump/codeblock'
+import CodeBlock from '../src/actiondump/codeblock'
 import { readFileSync } from 'fs'
 import Action from '../src/actiondump/action'
 
@@ -7,7 +7,7 @@ import Action from '../src/actiondump/action'
 
 
 describe("ActionDump", () => {
-        const db = ActionDump.parse(readFileSync('test/actiondump.json').toJSON())
+        const db = ActionDump.parse(JSON.parse(readFileSync('test/actiondump.json').toString()))
         test("Parsing", () => {
             expect(db).toBeInstanceOf(ActionDump)
         })
@@ -24,5 +24,6 @@ describe("ActionDump", () => {
             if(action == null) return
             expect(action).toBeInstanceOf(Action)
             expect(action.icon).toBeInstanceOf(Icon)
+            expect(action.name).not.toBe("")
         })
 })

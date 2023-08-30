@@ -1,10 +1,10 @@
 import { Type } from "class-transformer";
 import { Icon, ValueType } from "./actiondump";
-import { CodeblockName } from "./codeblock";
+import { CodeblockName, CodeblockNames } from "./codeblock";
 
 export default class Action {
     name: string = '';
-    codeblockName: CodeblockName = CodeblockName.PlayerEvent;
+    codeblockName: CodeblockName = CodeblockNames.PlayerEvent;
     tags: Tag[] = [];
     aliases: string[] = [];
     @Type(() => Icon)

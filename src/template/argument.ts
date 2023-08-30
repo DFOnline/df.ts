@@ -13,7 +13,7 @@ export class Arguments {
 }
 
 export default class Argument {
-    item: ArgumentItem<any>;
+    item: ArgumentItem<Item>;
     slot: number;
 
     constructor(item: ArgumentItem<any>, slot: number) {
@@ -27,7 +27,6 @@ export default class Argument {
         return new Argument(ArgumentItem.parse(data.item), data.slot);
     }
 }
-
 export abstract class ArgumentItem<T extends Record<string, any>> {
     abstract data: T;
 
@@ -278,3 +277,7 @@ export class MinecraftItem extends ArgumentItem<MinecraftItemData> {
         return new MinecraftItem(data);
     }
 }
+
+
+export const Items = [Named, Variable, Location, Vector, Potion, Sound, GameValue, BlockTag, MinecraftItem] as const;
+export type Item = typeof Items[number];

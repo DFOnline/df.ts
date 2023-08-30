@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+export type Values<T> = T[keyof T];
 
 // ActionDump
 import ActionDump from './actiondump/actiondump';

@@ -10,7 +10,7 @@ export * from './actiondump/codeblock';
 // Template
 import Argument from './template/argument';
 import Template from './template/template';
+export { Argument, Template }
 export * from './template/block'
 export * from './template/lines'
 export * from './template/argument'
-export { Argument, Template }

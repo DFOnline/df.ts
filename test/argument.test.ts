@@ -1,9 +1,11 @@
-import Argument, { ArgumentItem, Arguments, BlockTag, GameValue, Location, MinecraftItem, Named, Potion, Sound, Variable, Vector } from '../src/template/argument'
+import Argument, { ArgumentItem, Arguments, BlockTag, GameValue, Location, MinecraftItem, Potion, Sound, Text, Variable, Vector } from '../src/template/argument'
 
 class DummyItem extends ArgumentItem<{}> {
+    id : any;
+
     data = {} // "data" is abstract so the type is determined by ArgumentItem class.
     constructor() {
-        super('test', {})
+        super({})
     }
 }
 
@@ -46,42 +48,35 @@ describe("Argument", () => {
 })
 
 class TestItem extends ArgumentItem<any> {
+    id = "test" as const;
+
     data: any; // "data implicitly has any type" shur up typescript
-    constructor(id: string, data: any) {
-        super(id, data);
+    constructor(data: any) {
+        super(data);
     }
 }
 
 describe("Item",() => {
     describe("Abstract", () => {
         describe("Valid", () => {
-            new TestItem('test',{});
-            new TestItem('test',{'key':'value'});
-        });
-        describe("Bad id", () => {
-            expect(() => new TestItem(null as any,{})).toThrowError();
-            expect(() => new TestItem(new String() as any,{})).toThrowError();
-            expect(() => new TestItem({} as any,{})).toThrowError();
+            new TestItem({});
+            new TestItem({'key':'value'});
         });
         describe("Bad data", () => {
             //@ts-ignore // why
-            expect(() => new TestItem('test')).toThrowError();
+            expect(() => new TestItem()).toThrowError();
             // expect(() => new TestItem('test',null)).toThrowError()
-            expect(() => new TestItem('test','{"key":"value"')).toThrowError();
+            expect(() => new TestItem('{"key":"value"')).toThrowError();
         });
     });
 
     describe("Named", () => {
         test("Valid", () => {
-            new Named('num',{name:'3592'});
-            new Named('txt',{name:'hello'});
-        });
-        test("Bad id", () => {
-            expect(() => new Named('invalid' as any,{name:'invalid'})).toThrowError();
+            new Number({name:'3592'});
+            new Text({name:'hello'});
         });
         test("Bad value", () => {
-            expect(() => new Named('num',3592 as any)).toThrowError();
-            expect(() => new Named('txt','hello' as any)).toThrowError();
+            expect(() => new Text('hello' as any)).toThrowError();
         });
 
         describe("Variable", () => {

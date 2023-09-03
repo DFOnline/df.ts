@@ -23,8 +23,9 @@ describe("Arguments", () => {
             {slot:7,item:{id:"g_val",data:{type:'game value',target:'default'}}},
             {slot:8,item:{id:"bl_tag",data:{option: "option", tag: "tag", action: "action", block: "block"}}},
             {slot:9,item:{id:"item",data:{item:"{Count:1b}"}}},
+            {slot:10,item:{id:"comp",data:{name:"<green>component"}}},
+            {slot:11,item:{id:"hint",data:{id:"function"}}}
         ]).flat()})
-        console.time('Parsing')
     })
 })
 

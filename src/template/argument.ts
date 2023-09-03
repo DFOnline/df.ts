@@ -77,7 +77,8 @@ export class Number extends ArgumentItem<GenericNamedItemData> {
     }
 }
 export class Component extends ArgumentItem<GenericNamedItemData> {
-    readonly id = "comp";
+    static override readonly id = "comp";
+    readonly id = Component.id;
 
     constructor(public data: { name: string }) {
         if(typeof data.name != 'string') throw new TypeError(`data.name must be a string, not ${typeof data.name}`);

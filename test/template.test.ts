@@ -2,578 +2,351 @@ import Template from "../src/template/template"
 
 test("parsing", () => {
     Template.parse({
-        "blocks": [
-          {
-            "id": "block",
-            "block": "func",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "item",
-                    "data": {
-                      "item": "{Count:1b,DF_NBT:2975,id:\"minecraft:flower_banner_pattern\",tag:{HideFlags:127}}"
-                    }
-                  },
-                  "slot": 0
+      "blocks": [
+        {
+          "id": "block",
+          "block": "func",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "pn_el",
+                  "data": {
+                    "name": "name",
+                    "type": "any",
+                    "default_value": {
+                      "id": "num",
+                      "data": {
+                        "name": "0"
+                      }
+                    },
+                    "plural": false,
+                    "optional": true
+                  }
                 },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "False",
-                      "tag": "Is Hidden",
-                      "action": "dynamic",
-                      "block": "func"
-                    }
-                  },
-                  "slot": 26
-                }
-              ]
-            },
-            "data": "levelInfo"
+                "slot": 0
+              },
+              {
+                "item": {
+                  "id": "pn_el",
+                  "data": {
+                    "name": "name",
+                    "type": "var",
+                    "plural": true,
+                    "optional": false
+                  }
+                },
+                "slot": 1
+              },
+              {
+                "item": {
+                  "id": "pn_el",
+                  "data": {
+                    "name": "name",
+                    "type": "dict",
+                    "plural": true,
+                    "optional": true
+                  }
+                },
+                "slot": 2
+              },
+              {
+                "item": {
+                  "id": "pn_el",
+                  "data": {
+                    "name": "name",
+                    "type": "list",
+                    "plural": false,
+                    "optional": false
+                  }
+                },
+                "slot": 3
+              },
+              {
+                "item": {
+                  "id": "pn_el",
+                  "data": {
+                    "name": "name",
+                    "type": "vec",
+                    "plural": false,
+                    "optional": false,
+                    "description": "hi&ahi<green>hi",
+                    "note": "&ahi<green>hi"
+                  }
+                },
+                "slot": 4
+              },
+              {
+                "item": {
+                  "id": "hint",
+                  "data": {
+                    "id": "function"
+                  }
+                },
+                "slot": 25
+              },
+              {
+                "item": {
+                  "id": "bl_tag",
+                  "data": {
+                    "option": "False",
+                    "tag": "Is Hidden",
+                    "action": "dynamic",
+                    "block": "func"
+                  }
+                },
+                "slot": 26
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelHead",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
+          "data": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "txt",
+                  "data": {
+                    "name": "&astring! %default"
+                  }
                 },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levels",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 1
-                },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelIndex",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 2
-                }
-              ]
-            },
-            "action": "GetListValue"
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "name",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "comp",
+                  "data": {
+                    "name": "<green>hi"
+                  }
                 },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelHead",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 1
-                }
-              ]
-            },
-            "action": "GetItemName"
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "msgs",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "num",
+                  "data": {
+                    "name": "%var(&chi)"
+                  }
                 },
-                {
-                  "item": {
-                    "id": "txt",
-                    "data": {
-                      "name": "Â§7Ã¢ÂÂ %var(name)"
-                    }
-                  },
-                  "slot": 1
-                },
-                {
-                  "item": {
-                    "id": "txt",
-                    "data": {
-                      "name": "Â§xÂ§fÂ§fÂ§cÂ§fÂ§6Â§6Ã¢Â­Â Ã¢Â­Â Â§7Ã¢Â­Â"
-                    }
-                  },
-                  "slot": 2
-                },
-                {
-                  "item": {
-                    "id": "txt",
-                    "data": {
-                      "name": "Â§f"
-                    }
-                  },
-                  "slot": 3
-                },
-                {
-                  "item": {
-                    "id": "txt",
-                    "data": {
-                      "name": "Â§xÂ§6Â§6Â§7Â§fÂ§fÂ§fÃ¢ÂÂÃ¢ÂÂ Â§xÂ§6Â§0Â§9Â§eÂ§dÂ§7Â§lÃ¡Â´ÂÃ¡Â´ÂÃ¡Â´ÂÃ¡Â´Â Â§xÂ§8Â§aÂ§8Â§aÂ§8Â§aÃ¢ÂÂ  Â§fÃ¢ÂÂ¹ Â§xÂ§dÂ§7Â§9Â§6Â§6Â§0ÃªÂÂ° Â§fÃ¢ÂÂº"
-                    }
-                  },
-                  "slot": 4
-                },
-                {
-                  "item": {
-                    "id": "txt",
-                    "data": {
-                      "name": "Â§xÂ§fÂ§fÂ§eÂ§6Â§6Â§6Ã¢ÂÂ Â§xÂ§fÂ§fÂ§dÂ§cÂ§2Â§eÂ§lÃ¡Â´ÂÃ¡Â´ÂÃÂÃ¡Â´ÂÃ¡Â´ÂÃÂ Â§xÂ§8Â§aÂ§8Â§aÂ§8Â§aÃ¢ÂÂ  Â§fÃ¢ÂÂ¹ Â§xÂ§dÂ§7Â§9Â§6Â§6Â§0ÃªÂÂ° Â§fÃ¢ÂÂº"
-                    }
-                  },
-                  "slot": 5
-                },
-                {
-                  "item": {
-                    "id": "txt",
-                    "data": {
-                      "name": "Â§xÂ§6Â§eÂ§dÂ§7Â§6Â§0Ã¢ÂÂ Â§xÂ§5Â§2Â§dÂ§8Â§4Â§1Â§lÃ¡Â´ÂÃÂÃ¡Â´ÂÃÂ Â§xÂ§8Â§aÂ§8Â§aÂ§8Â§aÃ¢ÂÂ  Â§fÃ¢ÂÂ¹ Â§xÂ§dÂ§7Â§9Â§6Â§6Â§0ÃªÂÂ° Â§fÃ¢ÂÂº"
-                    }
-                  },
-                  "slot": 6
-                }
-              ]
-            },
-            "action": "CreateList"
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelInfos",
-                      "scope": "local"
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "loc",
+                  "data": {
+                    "isBlock": false,
+                    "loc": {
+                      "x": 2.100503566321322,
+                      "y": 64.14752328981187,
+                      "z": 22.627610902878587,
+                      "pitch": 23.69824,
+                      "yaw": -110.94752
                     }
-                  },
-                  "slot": 0
+                  }
                 },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "msgs",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 1
-                }
-              ]
-            },
-            "action": "="
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "hol",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "vec",
+                  "data": {
+                    "x": 1,
+                    "y": 0.1,
+                    "z": 0.03
+                  }
                 },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelLocs",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 1
-                },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelIndex",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 2
-                }
-              ]
-            },
-            "action": "GetListValue"
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "hol",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "snd",
+                  "data": {
+                    "pitch": 1,
+                    "vol": 2,
+                    "sound": "Pling"
+                  }
                 },
-                {
-                  "item": {
-                    "id": "num",
-                    "data": {
-                      "name": "1.5"
-                    }
-                  },
-                  "slot": 1
-                },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "Y",
-                      "tag": "Coordinate",
-                      "action": "ShiftOnAxis",
-                      "block": "set_var"
-                    }
-                  },
-                  "slot": 26
-                }
-              ]
-            },
-            "action": "ShiftOnAxis"
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "part",
+                  "data": {
+                    "particle": "Cloud",
+                    "cluster": {
+                      "amount": 1,
+                      "horizontal": 0,
+                      "vertical": 0
+                    },
                     "data": {
-                      "name": "tempIndex",
-                      "scope": "local"
+                      "x": 1,
+                      "y": 0,
+                      "z": 0,
+                      "motionVariation": 100
                     }
-                  },
-                  "slot": 0
+                  }
                 },
-                {
-                  "item": {
-                    "id": "num",
-                    "data": {
-                      "name": "0"
-                    }
-                  },
-                  "slot": 1
-                }
-              ]
-            },
-            "action": "="
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "repeat",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "msg",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "pot",
+                  "data": {
+                    "pot": "Speed",
+                    "dur": 1000000,
+                    "amp": 0
+                  }
                 },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "msgs",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 1
-                },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "True",
-                      "tag": "Allow List Changes",
-                      "action": "ForEach",
-                      "block": "repeat"
-                    }
-                  },
-                  "slot": 26
-                }
-              ]
-            },
-            "action": "ForEach"
+                "slot": 0
+              }
+            ]
           },
-          {
-            "id": "bracket",
-            "direct": "open",
-            "type": "repeat"
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "var",
+                  "data": {
+                    "name": "hi",
+                    "scope": "unsaved"
+                  }
+                },
+                "slot": 0
+              },
+              {
+                "item": {
+                  "id": "var",
+                  "data": {
+                    "name": "hello",
+                    "scope": "saved"
+                  }
+                },
+                "slot": 1
+              },
+              {
+                "item": {
+                  "id": "var",
+                  "data": {
+                    "name": "morning",
+                    "scope": "local"
+                  }
+                },
+                "slot": 2
+              },
+              {
+                "item": {
+                  "id": "var",
+                  "data": {
+                    "name": "night",
+                    "scope": "line"
+                  }
+                },
+                "slot": 3
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "player_action",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "hol",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
+          "action": ""
+        },
+        {
+          "id": "block",
+          "block": "player_action",
+          "args": {
+            "items": [
+              {
+                "item": {
+                  "id": "g_val",
+                  "data": {
+                    "type": "Player Count",
+                    "target": "Default"
+                  }
                 },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "msg",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 1
-                }
-              ]
-            },
-            "action": "DisplayHologram"
+                "slot": 0
+              },
+              {
+                "item": {
+                  "id": "g_val",
+                  "data": {
+                    "type": "Current Health",
+                    "target": "Default"
+                  }
+                },
+                "slot": 1
+              }
+            ]
           },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "tempIndex",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
-                }
-              ]
-            },
-            "action": "+="
-          },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelInfos",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
-                },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "tempIndex",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 1
-                },
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "hol",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 2
-                }
-              ]
-            },
-            "action": "SetListValue"
-          },
-          {
-            "id": "block",
-            "block": "player_action",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "levelInfos",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
-                },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "Add spaces",
-                      "tag": "Text Value Merging",
-                      "action": "SendMessage",
-                      "block": "player_action"
-                    }
-                  },
-                  "slot": 25
-                },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "Regular",
-                      "tag": "Alignment Mode",
-                      "action": "SendMessage",
-                      "block": "player_action"
-                    }
-                  },
-                  "slot": 26
-                }
-              ]
-            },
-            "action": "SendMessage"
-          },
-          {
-            "id": "block",
-            "block": "player_action",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "hol",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
-                },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "Add spaces",
-                      "tag": "Text Value Merging",
-                      "action": "SendMessage",
-                      "block": "player_action"
-                    }
-                  },
-                  "slot": 25
-                },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "Regular",
-                      "tag": "Alignment Mode",
-                      "action": "SendMessage",
-                      "block": "player_action"
-                    }
-                  },
-                  "slot": 26
-                }
-              ]
-            },
-            "action": "SendMessage"
-          },
-          {
-            "id": "block",
-            "block": "set_var",
-            "args": {
-              "items": [
-                {
-                  "item": {
-                    "id": "var",
-                    "data": {
-                      "name": "hol",
-                      "scope": "local"
-                    }
-                  },
-                  "slot": 0
-                },
-                {
-                  "item": {
-                    "id": "num",
-                    "data": {
-                      "name": "0.25"
-                    }
-                  },
-                  "slot": 1
-                },
-                {
-                  "item": {
-                    "id": "bl_tag",
-                    "data": {
-                      "option": "Y",
-                      "tag": "Coordinate",
-                      "action": "ShiftOnAxis",
-                      "block": "set_var"
-                    }
-                  },
-                  "slot": 26
-                }
-              ]
-            },
-            "action": "ShiftOnAxis"
-          },
-          {
-            "id": "bracket",
-            "direct": "close",
-            "type": "repeat"
-          }
-        ]
-      });
+          "action": ""
+        }
+      ]
+    });
 })

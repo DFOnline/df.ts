@@ -248,9 +248,11 @@ export class Sound extends ArgumentItem<SoundItemData> {
 
 // TODO: Particles, keep in mind https://gist.github.com/tk2217/1dbbb24aa69e54bdb2574aedb7e71e53
 
+export const GameValueTargets = ['Selection','Default','Killer','Damager','Victim','Shooter','Projectile','LastEntity'] as const;
+type GameValueTarget = typeof GameValueTargets[number]
 interface GameValueItemData {
     type: string,
-    target?: string
+    target: GameValueTarget
 }
 
 export class GameValue extends ArgumentItem<GameValueItemData> {
@@ -259,7 +261,7 @@ export class GameValue extends ArgumentItem<GameValueItemData> {
 
     constructor(public data: GameValueItemData) {
         if(typeof data.type != 'string') throw TypeError(`data.type should be a string not ${typeof data.type}`)
-        if(typeof data.target != 'string') throw TypeError(`data.target should be a string not ${typeof data.target}`)
+        if(!GameValueTargets.includes(data.target)) throw TypeError(`data.target is ${data.target}, it should be any of: ${GameValueTargets.join(', ')}.`)
         super(data)
     }
 

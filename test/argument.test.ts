@@ -148,7 +148,7 @@ describe("Item",() => {
 
     describe("Game Value", () => {
         test("Valid", () => {
-            new GameValue({type:'game value',target:'default'})
+            new GameValue({type:'game value',target:'Default'})
         })
         test("Invalid", () => {
             //@ts-ignore

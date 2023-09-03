@@ -285,6 +285,7 @@ interface ParameterItemData {
 }
 
 export class Parameter extends ArgumentItem<ParameterItemData> {
+    /** Short for `pattern_element`. Parameters, each bullet in a actions Chest Parameters is a pattern internally. Apparently. */
     static override readonly id = "pn_el";
     readonly id = Parameter.id;
 
@@ -301,7 +302,7 @@ export class Parameter extends ArgumentItem<ParameterItemData> {
             if(data.type == 'var' || data.type == 'list' || data.type == 'dict') throw TypeError(`Parameters with type ${data.type} cannot have default values`)
         }
         super(data);
-        this.data.default_value = ArgumentItem.parse(this.data.default_value);
+        if(this.data.default_value != null) this.data.default_value = ArgumentItem.parse(this.data.default_value);
     }
 
     static from(data: object): Parameter {

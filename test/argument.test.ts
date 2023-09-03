@@ -24,7 +24,12 @@ describe("Arguments", () => {
             {slot:8,item:{id:"bl_tag",data:{option: "option", tag: "tag", action: "action", block: "block"}}},
             {slot:9,item:{id:"item",data:{item:"{Count:1b}"}}},
             {slot:10,item:{id:"comp",data:{name:"<green>component"}}},
-            {slot:11,item:{id:"hint",data:{id:"function"}}}
+            {slot:11,item:{id:"hint",data:{id:"function"}}},
+            {slot:12,item:{id:"pn_el",data:{name:"name",type:"any",default_value:{"id":"num","data":{"name":"0"}},plural:false,optional:true}}},
+            {slot:13,item:{id:"pn_el",data:{name:"name",type:"var",plural:true,optional:false}}},
+            {slot:14,item:{id:"pn_el",data:{name:"name",type:"dict",plural:true,optional:true}}},
+            {slot:15,item:{id:"pn_el",data:{name:"name",type:"list",plural:false,optional:false}}},
+            {slot:16,item:{id:"pn_el",data:{name:"name",type:"vec",plural:false,optional:false,description:"hi&ahi<green>hi",note:"&ahi<green>hi"}}},
         ]).flat()})
     })
 })

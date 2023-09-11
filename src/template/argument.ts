@@ -99,7 +99,7 @@ export class Variable extends ArgumentItem<VariableItemData> {
     static override readonly id = "var"
     readonly id = Variable.id;
 
-    constructor(public override data: VariableItemData) {
+    constructor(public data: VariableItemData) {
         if(typeof data.name != 'string') throw new TypeError(`data.name must be a string, not ${typeof data.name}`);
         if(!VariableScopes.includes(data.scope)) throw new TypeError(`Scope must be any of unsaved, saved and local. Not ${data.scope}`);
         super(data);

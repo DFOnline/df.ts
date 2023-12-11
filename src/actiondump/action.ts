@@ -8,7 +8,7 @@ export default class Action {
     tags: Tag[] = [];
     aliases: string[] = [];
     @Type(() => Icon)
-    icon: Icon = new Icon;
+    icon: Icon = Icon({});
 }
 
 export class Argument {
@@ -29,6 +29,6 @@ export class Tag {
 
 export class Option {
     name:    string = "";
-    icon:    Icon = new Icon;
+    icon:    Icon = Icon({});
     aliases: string[] = [];
 }

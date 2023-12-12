@@ -7,6 +7,10 @@ describe("ActionDump", () => {
         test("Parsing", () => {
             expect(db.constructor).toStrictEqual(Actiondump)
             expect(db.constructor).not.toStrictEqual(console.log)
+            expect(db.getCodeblocks())
+            expect(db.getCodeblock("event")?.identifier).toStrictEqual("event");
+            expect(db.getCodeblock("PLAYER EVENT")?.name).toStrictEqual("PLAYER EVENT");
+            expect(db.getCodeblock(0)).not.toBe(null);
         })
 
         test("Codeblock", () => {

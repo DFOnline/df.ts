@@ -17,11 +17,51 @@ export function Color(data: any) {
          * Doesn't include #.
          */
         toString() {
-            return this.toNumber().toString(16).padStart(6,'0');
+            return this.toNumber().toString(16).padStart(6, '0');
         }
     }
 }
 type Color = ReturnType<typeof Color>;
+
+export type ValueType = Values<typeof ValueTypes>
+export const ValueTypes = {
+    AnyType: "ANY_TYPE",
+    Block: "BLOCK",
+    BlockTag: "BLOCK_TAG",
+    Dict: "DICT",
+    EntityType: "ENTITY_TYPE",
+    Item: "ITEM",
+    List: "LIST",
+    Location: "LOCATION",
+    None: "NONE",
+    Number: "NUMBER",
+    Particle: "PARTICLE",
+    Potion: "POTION",
+    Projectile: "PROJECTILE",
+    Sound: "SOUND",
+    SpawnEgg: "SPAWN_EGG",
+    Text: "TEXT",
+    Variable: "VARIABLE",
+    Vector: "VECTOR",
+    Vehicle: "VEHICLE",
+} as const
+
+export type RequiredRank = Values<typeof RequiredRanks>
+export const RequiredRanks = {
+    Empty: "",
+    Noble: "Noble",
+    Emperor: "Emperor",
+    Mythic: "Mythic",
+    Overlord: "Overlord",
+    Dev: "Dev",
+} as const
+
+export type LoadedItem = Values<typeof LoadedItems>
+export const LoadedItems = {
+    Arrow: "ARROW",
+    Empty: "",
+    FireworkRocket: "FIREWORK_ROCKET",
+} as const
 
 const ZIcon = z.object({
     material: z.string(),
@@ -31,13 +71,23 @@ const ZIcon = z.object({
     example: z.array(z.string()),
     worksWith: z.array(z.string()),
     additionalInfo: z.array(z.array(z.string())),
-    requiredRank: z.string(),
+    requiredRank: z.nativeEnum(RequiredRanks),
     requireTokens: z.boolean(),
     requireRankAndTokens: z.boolean(),
     advanced: z.boolean(),
-    loadedItem: z.optional(z.any()),
+    loadedItem: z.optional(z.nativeEnum(LoadedItems)),
     head: z.optional(z.string()),
+    /**
+     * Use getColor()
+     */
     color: z.optional(ZColor),
+
+    // arguments?: Argument[];
+    tags: z.optional(z.number()),
+    cancellable: z.optional(z.boolean()),
+    cancelledAutomatically: z.optional(z.boolean()),
+    returnType: z.optional(z.nativeEnum(ValueTypes)),
+    returnDescription: z.optional(z.array(z.string())),
 })
 export function Icon(data: any) {
     return {
@@ -46,7 +96,7 @@ export function Icon(data: any) {
         isLegacy() {
             return this.material == 'STONE' && this.description.length == 0;
         },
-        getColor(): Color|undefined {
+        getColor(): Color | undefined {
             return this.color ? Color(this.color) : undefined;
         }
     }
@@ -86,60 +136,13 @@ export function Actiondump(data: any) {
             }
             if (typeof ref == 'string') {
                 const find = this.codeblocks.find(cb => cb.name == ref || cb.identifier == ref);
-                if(find == undefined) return undefined;
+                if (find == undefined) return undefined;
                 return Codeblock(find);
             }
             return undefined;
         },
+        getCodeblocks(): Codeblock[] {
+            return this.codeblocks.map(cb => Codeblock(cb));
+        }
     }
 }
-// export class Icon {
-//     TODO: these
-//     @Type(() => Argument)
-//     arguments?:               Argument[];
-//     tags?:                    number;
-//     cancellable?:             boolean;
-//     cancelledAutomatically?:  boolean;
-//     returnType?:              ValueType;
-//     returnDescription?:       string[];
-// }
-
-export type ValueType = Values<typeof ValueTypes>
-export const ValueTypes = {
-    AnyType: "ANY_TYPE",
-    Block: "BLOCK",
-    BlockTag: "BLOCK_TAG",
-    Dict: "DICT",
-    EntityType: "ENTITY_TYPE",
-    Item: "ITEM",
-    List: "LIST",
-    Location: "LOCATION",
-    None: "NONE",
-    Number: "NUMBER",
-    Particle: "PARTICLE",
-    Potion: "POTION",
-    Projectile: "PROJECTILE",
-    Sound: "SOUND",
-    SpawnEgg: "SPAWN_EGG",
-    Text: "TEXT",
-    Variable: "VARIABLE",
-    Vector: "VECTOR",
-    Vehicle: "VEHICLE",
-} as const
-
-// export type LoadedItem = Values<typeof LoadedItems>
-// export const LoadedItems = {
-//     Arrow: "ARROW",
-//     Empty: "",
-//     FireworkRocket: "FIREWORK_ROCKET",
-// } as const
-
-export type RequiredRank = Values<typeof RequiredRanks>
-export const RequiredRanks =  {
-    Empty: "",
-    Noble: "Noble",
-    Emperor: "Emperor",
-    Mythic: "Mythic",
-    Overlord: "Overlord",
-    Dev: "Dev",
-} as const

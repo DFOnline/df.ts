@@ -42,23 +42,32 @@ export declare class DataBlock extends ArgumentBlock implements SecondLineBlock 
     get secondLine(): string;
     set secondLine(string: string);
 }
+export type Attribute = "" | "NOT" | "LS-CANCEL";
 export type ActionBlockBlock = SelectionBlockBlock | SubActionBlockBlock;
 export declare class ActionBlock extends ArgumentBlock implements SecondLineBlock, ForthLineBlock {
     action: string;
+    /**
+     * @deprecated No longer filled by DF.
+     */
     inverted: string;
-    constructor(block: ActionBlockBlock, action: string, inverted?: string, args?: Arguments);
+    attribute: Attribute | string;
+    constructor(block: ActionBlockBlock, action: string, attribute?: string, args?: Arguments);
     static parse(data: unknown): ActionBlock;
     get secondLine(): string;
     set secondLine(string: string);
+    get attr(): Attribute;
+    set attr(string: Attribute);
     get forthLine(): string;
     set forthLine(string: string);
     get not(): boolean;
     set not(boolean: boolean);
+    get cancelled(): boolean;
+    set cancelled(boolean: boolean);
 }
 export type SelectionBlockBlock = "event" | "player_action" | "entity_event" | "entity_action" | "set_var" | "game_action" | "control" | "select_obj";
 export declare class SelectionBlock extends ActionBlock implements ThirdLineBlock {
     target: string;
-    constructor(block: SelectionBlockBlock, action: string, target?: string, inverted?: string, args?: Arguments);
+    constructor(block: SelectionBlockBlock, action: string, target?: string, attribute?: string, args?: Arguments);
     static parse(data: unknown): SelectionBlock;
     get thirdLine(): string;
     set thirdLine(string: string);
@@ -66,7 +75,7 @@ export declare class SelectionBlock extends ActionBlock implements ThirdLineBloc
 export type SubActionBlockBlock = "if_entity" | "if_game" | "if_player" | "if_var" | "repeat";
 export declare class SubActionBlock extends ActionBlock implements ThirdLineBlock {
     subAction: string;
-    constructor(block: SubActionBlockBlock, action: string, subAction?: string, inverted?: string, args?: Arguments);
+    constructor(block: SubActionBlockBlock, action: string, subAction?: string, attribute?: string, args?: Arguments);
     static parse(data: unknown): SubActionBlock;
     get thirdLine(): string;
     set thirdLine(string: string);

@@ -99,17 +99,20 @@ export class DataBlock extends ArgumentBlock implements SecondLineBlock {
     }
 }
 
-
+export type Attribute = "" | "NOT" | "LS-CANCEL"
 export type ActionBlockBlock = SelectionBlockBlock | SubActionBlockBlock;
 export class ActionBlock extends ArgumentBlock implements SecondLineBlock, ForthLineBlock {
     action: string;
+    /**
+     * @deprecated No longer filled by DF.
+     */
     inverted: string = '';
+    attribute: Attribute | string = '';
 
-
-    constructor(block : ActionBlockBlock, action : string, inverted : string = '', args?: Arguments) {
+    constructor(block : ActionBlockBlock, action : string, attribute : string = '', args?: Arguments) {
         super(block, args);
         this.action = action;
-        this.inverted = inverted;
+        this.attribute = attribute;
     }
 
     static override parse(data: unknown): ActionBlock {
@@ -123,18 +126,32 @@ export class ActionBlock extends ArgumentBlock implements SecondLineBlock, Forth
         this.action = string;
     }
 
+    get attr(): Attribute {
+        return this.attribute as Attribute;
+    }
+    set attr(string: Attribute) {
+        this.attribute = string;
+    }
+
     get forthLine(): string {
-        return this.inverted;
+        return this.attribute ?? this.inverted;
     }
     set forthLine(string: string) {
-        this.inverted = string;
+        this.attribute = string;
     }
 
     get not(): boolean {
-        return this.inverted === 'NOT';
+        return this.attribute === 'NOT' || this.inverted === 'NOT';
     }
     set not(boolean: boolean) {
-        this.inverted = boolean ? 'NOT' : '';
+        this.attribute = boolean ? 'NOT' : '';
+    }
+
+    get cancelled(): boolean {
+        return this.attr === 'LS-CANCEL'
+    }
+    set cancelled(boolean: boolean) {
+        this.attr = boolean ? 'LS-CANCEL' : '';
     }
 }
 
@@ -142,8 +159,8 @@ export type SelectionBlockBlock = "event" | "player_action" | "entity_event" | "
 export class SelectionBlock extends ActionBlock implements ThirdLineBlock {
     target: string = "";
 
-    constructor(block : SelectionBlockBlock, action : string, target?: string, inverted?: string, args?: Arguments) {
-        super(block,action,inverted,args);
+    constructor(block : SelectionBlockBlock, action : string, target?: string, attribute?: string, args?: Arguments) {
+        super(block,action,attribute,args);
         this.target = target ?? "";
     }
 
@@ -163,8 +180,8 @@ export type SubActionBlockBlock = "if_entity" | "if_game" | "if_player" | "if_va
 export class SubActionBlock extends ActionBlock implements ThirdLineBlock {
     subAction: string;
 
-    constructor(block : SubActionBlockBlock, action : string, subAction?: string, inverted?: string, args?: Arguments) {
-        super(block,action,inverted,args);
+    constructor(block : SubActionBlockBlock, action : string, subAction?: string, attribute?: string, args?: Arguments) {
+        super(block,action,attribute,args);
         this.subAction = subAction ?? "";
     }
 
